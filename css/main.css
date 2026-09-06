@@ -108,3 +108,15 @@ dd {
     height: 360px;
   }
 }
+
+.dimensions-table {
+  display: flex;
+  gap: 0.8em;
+}
+
+.dimensions-table label {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  flex: 1;
+}

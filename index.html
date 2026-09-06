@@ -79,30 +79,92 @@
           <div data-process="bm" style="display: none">
             <label>
               Diffusion
-              <input
-                id="diffusion"
-                type="number"
-                min="0"
-                max="1000000000000"
-                step="0.00000001"
-                data-jump="0.1"
-                value="1"
-              />
+              <div class="dimensions-table">
+                <label data-mode="x xy xyz" style="display: none">
+                  <span data-mode="xy xyz" style="display: none">X</span>
+                  <input
+                    id="diffusion-x"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="1"
+                  />
+                </label>
+
+                <label data-mode="xy xyz" style="display: none">
+                  Y
+                  <input
+                    id="diffusion-y"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="1"
+                  />
+                </label>
+
+                <label data-mode="xyz" style="display: none">
+                  Z
+                  <input
+                    id="diffusion-z"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="1"
+                  />
+                </label>
+              </div>
             </label>
           </div>
 
           <div data-process="bm" style="display: none">
             <label>
               Drift
-              <input
-                id="drift"
-                type="number"
-                min="-1000000000000"
-                max="1000000000000"
-                step="0.00000001"
-                data-jump="0.1"
-                value="0"
-              />
+              <div class="dimensions-table">
+                <label data-mode="x xy xyz" style="display: none">
+                  <span data-mode="xy xyz" style="display: none">X</span>
+                  <input
+                    id="drift-x"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="0"
+                  />
+                </label>
+
+                <label data-mode="xy xyz" style="display: none">
+                  Y
+                  <input
+                    id="drift-y"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="0"
+                  />
+                </label>
+
+                <label data-mode="xyz" style="display: none">
+                  Z
+                  <input
+                    id="drift-z"
+                    type="number"
+                    min="-1000000000000"
+                    max="1000000000000"
+                    step="0.00000001"
+                    data-jump="0.1"
+                    value="0"
+                  />
+                </label>
+              </div>
             </label>
           </div>
 

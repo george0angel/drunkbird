@@ -49,16 +49,37 @@ function readParameters() {
   const graphMode = document.querySelector("#graph-mode").value;
   const dimensions = getSpatialDimensions(graphMode);
 
+  const diffusionX = Number(document.querySelector("#diffusion-x").value);
+  const diffusionY = Number(document.querySelector("#diffusion-y").value);
+  const diffusionZ = Number(document.querySelector("#diffusion-z").value);
+
+  const driftX = Number(document.querySelector("#drift-x").value);
+  const driftY = Number(document.querySelector("#drift-y").value);
+  const driftZ = Number(document.querySelector("#drift-z").value);
+
+  let diffusion, drift;
+  switch (dimensions) {
+    case 1:
+      diffusion = [diffusionX];
+      drift = [driftX];
+      console.log(diffusion);
+      break;
+    case 2:
+      diffusion = [diffusionX, diffusionY];
+      drift = [driftX, driftY];
+      break;
+    case 3:
+      diffusion = [diffusionX, diffusionY, diffusionZ];
+      drift = [driftX, driftY, driftZ];
+      break;
+  }
+
   return {
     processType,
     duration: Number(document.querySelector("#duration").value),
     dt: processType === `rw` ? 1 : Number(document.querySelector("#dt").value),
-    diffusion: Array(dimensions).fill(
-      Number(document.querySelector("#diffusion").value),
-    ),
-    drift: Array(dimensions).fill(
-      Number(document.querySelector("#drift").value),
-    ),
+    diffusion,
+    drift,
     branchingRate:
       Number(document.querySelector("#branching-on").checked) *
       Number(document.querySelector("#branching-rate").value),
@@ -583,6 +604,7 @@ document.querySelectorAll('input[type="number"]').forEach((input) => {
 
 // Process selection handler and input visibility.
 const hideableFields = document.querySelectorAll(`div[data-process]`);
+const hideableDimensions = document.querySelectorAll(`[data-mode]`);
 const inputFields = document.querySelectorAll(`input`);
 
 function updateVisibility() {
@@ -591,7 +613,7 @@ function updateVisibility() {
     const allowedParameters = field.dataset.process.split(` `);
 
     if (allowedParameters.includes(processType)) {
-      field.style.display = "block";
+      field.style.display = "";
     } else {
       field.style.display = "none";
     }
@@ -628,9 +650,27 @@ function updateEnabled() {
   }
 }
 
+function updateDimensions() {
+  const graphMode = document.getElementById(`graph-mode`).value;
+  const dimensions = graphMode.replaceAll(`t`, ``);
+  for (const field of hideableDimensions) {
+    const allowedParameters = field.dataset.mode.split(` `);
+
+    if (allowedParameters.includes(dimensions)) {
+      field.style.display = "";
+    } else {
+      field.style.display = "none";
+    }
+  }
+}
+
 document
   .getElementById(`process-type`)
   .addEventListener(`change`, updateVisibility);
+
+document
+  .getElementById(`graph-mode`)
+  .addEventListener(`change`, updateDimensions);
 
 document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
   checkbox.addEventListener(`change`, updateEnabled);
@@ -638,3 +678,4 @@ document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
 
 updateVisibility();
 updateEnabled();
+updateDimensions();
