@@ -37,10 +37,6 @@ h2 {
   line-height: 1.2;
 }
 
-.simulation-list li {
-  margin-bottom: 16px;
-}
-
 .simulation-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -53,22 +49,17 @@ form {
   border: 1px solid #bbb;
 }
 
-form label {
-  /* display: block; */
-  margin-bottom: 12px;
-}
-
 form input[type="number"] {
-  /* display: block; */
   width: 100%;
-  margin-top: 4px;
+  margin-top: 2px;
+  margin-bottom: 4px;
   padding: 6px;
 }
 
 form select {
-  /* display: block; */
   width: 100%;
-  margin-top: 4px;
+  margin-top: 2px;
+  margin-bottom: 4px;
   padding: 6px;
 }
 
@@ -84,14 +75,6 @@ button:disabled {
 #status {
   min-height: 1.5em;
   font-weight: bold;
-}
-
-#trajectory-canvas {
-  display: block;
-  width: 100%;
-  height: 500px;
-  border: 1px solid #999;
-  background: white;
 }
 
 #trajectory-plot {
