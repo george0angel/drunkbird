@@ -34,12 +34,12 @@ main {
 
 h1,
 h2 {
+  margin-left: -0.2em;
   line-height: 1.2;
 }
 
 .simulation-layout {
   display: grid;
-  align-items: start;
   grid-template-columns: 16em 1fr;
   gap: 1.5em;
 }
@@ -119,4 +119,10 @@ dd {
   align-items: center;
   gap: 0.3em;
   flex: 1;
+}
+
+.parameter-heading {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+  margin-left: -0.2em;
 }

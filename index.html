@@ -23,8 +23,6 @@
 
       <div class="simulation-layout">
         <form id="controls">
-          <h3>Parameters</h3>
-
           <div style="display: block">
             <label>
               Process type
@@ -61,20 +59,7 @@
             </label>
           </div>
 
-          <div data-process="bm" style="display: none">
-            <label>
-              Time step
-              <input
-                id="dt"
-                type="number"
-                min="0.0001"
-                max="1"
-                step="0.00000001"
-                data-jump="0.001"
-                value="0.01"
-              />
-            </label>
-          </div>
+          <h3 class="parameter-heading">Parameters</h3>
 
           <div data-process="bm" style="display: none">
             <label>
@@ -201,6 +186,8 @@
             </label>
           </div>
 
+          <h3 class="parameter-heading">Simulation settings</h3>
+
           <div
             id="max-particles-input"
             data-process="bm rw"
@@ -220,6 +207,21 @@
                 ><span style="font-size: small">Enabled?</span
                 ><input id="max-particles-on" type="checkbox" checked
               /></label>
+            </label>
+          </div>
+
+          <div data-process="bm" style="display: none">
+            <label>
+              Time step
+              <input
+                id="dt"
+                type="number"
+                min="0.0001"
+                max="1"
+                step="0.00000001"
+                data-jump="0.001"
+                value="0.01"
+              />
             </label>
           </div>
 
