@@ -62,7 +62,6 @@ function readParameters() {
     case 1:
       diffusion = [diffusionX];
       drift = [driftX];
-      console.log(diffusion);
       break;
     case 2:
       diffusion = [diffusionX, diffusionY];
