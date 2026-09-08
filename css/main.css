@@ -70,7 +70,33 @@ header {
 footer {
   margin-top: 2em;
   border-top: 1px solid #ccc;
-  border-bottom: 0;
+  color: #666;
+  font-size: small;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1.6em;
+}
+
+.footer-quote {
+  display: none;
+}
+
+.footer-repo {
+  justify-self: end;
+}
+
+@media (min-width: 20em) {
+  .footer-quote {
+    display: block;
+  }
+}
+
+.footer-repo a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  white-space: nowrap;
 }
 
 nav a {
