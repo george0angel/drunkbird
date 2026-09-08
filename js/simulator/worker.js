@@ -1,10 +1,10 @@
-import { simulateBranchingProcess } from "./core.js";
+import { simulateProcess } from "./core.js";
 
 self.addEventListener("message", (event) => {
   const { requestId, parameters } = event.data ?? {};
 
   try {
-    const result = simulateBranchingProcess(parameters);
+    const result = simulateProcess(parameters);
 
     self.postMessage({
       requestId,

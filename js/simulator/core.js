@@ -264,7 +264,7 @@ function updateBounds(position) {
   maxPosition = maxPosition.map((value, i) => Math.max(value, position[i]));
 }
 
-export function simulateBranchingProcess(payload) {
+export function simulateProcess(payload) {
   const processType = payload.processType;
   const duration = Number(payload.duration);
   const dt = processType === `rw` ? 1 : Number(payload.dt);
