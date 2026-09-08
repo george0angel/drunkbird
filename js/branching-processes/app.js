@@ -179,7 +179,32 @@ function delay(time) {
   });
 }
 
-function drawAnimated(result, graphMode, animationDuration) {
+async function lockCanvas(is2D, plot) {
+  if (is2D) {
+    await Plotly.relayout(plot, {
+      "xaxis.autorange": false,
+      "yaxis.autorange": false,
+    });
+  } else {
+    const scene = plot._fullLayout.scene;
+    await Plotly.relayout(plot, {
+      "scene.xaxis.range": [...scene.xaxis.range],
+      "scene.yaxis.range": [...scene.yaxis.range],
+      "scene.zaxis.range": [...scene.zaxis.range],
+      "scene.xaxis.autorange": false,
+      "scene.yaxis.autorange": false,
+      "scene.zaxis.autorange": false,
+      "scene.aspectratio": {
+        x: scene.aspectratio.x,
+        y: scene.aspectratio.y,
+        z: scene.aspectratio.z,
+      },
+      "scene.aspectmode": "manual",
+    });
+  }
+}
+
+async function drawAnimated(result, graphMode, animationDuration) {
   const frameCount = Math.min(
     (20 * animationDuration) / 1000 + 1,
     result.summary.steps + 1,
@@ -219,9 +244,6 @@ function drawAnimated(result, graphMode, animationDuration) {
     showlegend: false,
   }));
 
-  const minPosition = result.summary.minPosition;
-  const maxPosition = result.summary.maxPosition;
-  const range = minPosition.map((min, index) => [min, maxPosition[index]]);
   const frameDuration = animationDuration / Math.max(times.length - 1, 1);
 
   const updatemenus = [
@@ -263,12 +285,12 @@ function drawAnimated(result, graphMode, animationDuration) {
     layout = {
       xaxis: {
         title: { text: graphMode === "xt" ? "Time" : "X" },
-        range: graphMode === "xt" ? [startTime, endTime] : range[0],
+        domain: [0.07, 0.97],
       },
 
       yaxis: {
         title: { text: graphMode === "xt" ? "X" : "Y" },
-        range: graphMode === "xt" ? range[0] : range[1],
+        domain: [0.07, 0.96],
       },
 
       margin: {
@@ -285,17 +307,14 @@ function drawAnimated(result, graphMode, animationDuration) {
       scene: {
         xaxis: {
           title: { text: "X" },
-          range: range[0],
         },
 
         yaxis: {
           title: { text: "Y" },
-          range: range[1],
         },
 
         zaxis: {
           title: { text: graphMode === "xyt" ? "Time" : "Z" },
-          range: graphMode === "xyt" ? [startTime, endTime] : range[2],
         },
 
         aspectmode: "data",
@@ -313,11 +332,13 @@ function drawAnimated(result, graphMode, animationDuration) {
   }
 
   Plotly.purge("trajectory-plot");
-  Plotly.newPlot("trajectory-plot", traces, layout, {
+
+  const plot = await Plotly.newPlot("trajectory-plot", traces, layout, {
     responsive: true,
   });
 
-  const plot = document.getElementById("trajectory-plot");
+  await lockCanvas(is2D, plot);
+
   let isPlaying = false;
   let currentFrame = times.length - 1;
 
@@ -345,6 +366,18 @@ function drawAnimated(result, graphMode, animationDuration) {
       });
     }
   }
+
+  plot.on("plotly_relayout", async (event) => {
+    if (is2D) {
+      if (!event["xaxis.autorange"] && !event["yaxis.autorange"]) return;
+
+      await lockCanvas(is2D, plot);
+    } else if (
+      Object.keys(event).some((key) => key.startsWith("scene.camera."))
+    ) {
+      await lockCanvas(is2D, plot);
+    }
+  });
 
   plot.on("plotly_sliderchange", async (event) => {
     if (isPlaying) {
