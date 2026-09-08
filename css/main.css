@@ -8,14 +8,63 @@ body {
   padding: 1em;
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  color: #222;
-  background: #fff;
+  color: #000;
+  background: rgb(255, 245, 245);
 }
 
-header,
-footer {
-  padding: 12px 0;
+header {
+  position: relative;
+  padding: 0 0;
   border-bottom: 1px solid #ccc;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: start;
+}
+
+.header-text {
+  padding-left: 0em;
+  padding-right: 0em;
+  display: flex;
+  z-index: 1;
+}
+
+.header-image {
+  display: none;
+  position: relative;
+  background-image: url("../assets/header_background.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  transform: scaleY(-1);
+  height: 89.5%;
+  margin-left: -0.1px;
+  margin-right: 0;
+  z-index: 0;
+}
+
+.header-image::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 245, 245, 0.4);
+}
+
+@media (min-width: 40em) {
+  .header-image {
+    display: block;
+  }
+}
+
+.logo > .logo-domain {
+  display: inline;
+}
+
+@media (max-width: 25em) {
+  .logo > .logo-domain {
+    display: none;
+  }
 }
 
 footer {
@@ -126,4 +175,68 @@ dd {
   margin-top: 0.6em;
   margin-bottom: 0.2em;
   margin-left: -0.2em;
+}
+
+/* drunkbird.net logo */
+
+.logo {
+  font-family: "Times New Roman", serif;
+  font-size: 4rem;
+  font-weight: normal;
+  color: #000;
+  letter-spacing: 0rem;
+  line-height: 2;
+}
+
+.logo span {
+  display: inline-block;
+  animation-name: wobble;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-play-state: paused;
+}
+
+.logo span:nth-child(1) {
+  animation-delay: -0.2s;
+}
+.logo span:nth-child(2) {
+  animation-delay: -0.77s;
+}
+.logo span:nth-child(3) {
+  animation-delay: -0.54s;
+}
+.logo span:nth-child(4) {
+  animation-delay: -0.31s;
+}
+.logo span:nth-child(5) {
+  animation-delay: -0.08s;
+}
+.logo span:nth-child(6) {
+  animation-delay: -0.62s;
+}
+.logo span:nth-child(7) {
+  animation-delay: -0.39s;
+}
+.logo span:nth-child(8) {
+  animation-delay: -0.16s;
+}
+.logo span:nth-child(9) {
+  animation-delay: -0.93s;
+}
+.logo span:nth-child(10) {
+  animation: none;
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(-8deg) translateY(-0.06em);
+  }
+  50% {
+    transform: rotate(12deg) translateY(0.08em) translateX(0.03em);
+  }
+  100% {
+    transform: rotate(-14deg) translateY(-0.02em) translateX(-0.02em);
+  }
 }
