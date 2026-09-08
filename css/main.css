@@ -82,6 +82,7 @@ button:disabled {
   width: 100%;
   height: min(40em, calc(100cqi * 4 / 3));
   border: 1px solid #999;
+  overflow: hidden;
   background: white;
 }
 

@@ -251,8 +251,17 @@ async function drawAnimated(result, graphMode, animationDuration) {
       type: "buttons",
       direction: "left",
       showactive: false,
-      x: 0,
-      y: -0.14,
+      yref: "container",
+      xanchor: "right",
+      yanchor: "top",
+      x: 0.1,
+      y: -0.04,
+      pad: {
+        l: 0,
+        r: 0,
+        t: 0,
+        b: 0,
+      },
       font: {
         size: 16,
       },
@@ -268,7 +277,17 @@ async function drawAnimated(result, graphMode, animationDuration) {
   const sliders = [
     {
       active: times.length - 1,
-      y: -0.04,
+      yref: "container",
+      len: 0.88,
+      xanchor: "left",
+      x: 0.1,
+      y: 0,
+      pad: {
+        l: 0,
+        r: 0,
+        t: 0,
+        b: 5,
+      },
       currentvalue: {
         prefix: "Time: ",
       },
@@ -294,10 +313,10 @@ async function drawAnimated(result, graphMode, animationDuration) {
       },
 
       margin: {
-        l: 40,
-        r: 20,
-        t: 20,
-        b: 30,
+        l: 0,
+        r: 0,
+        t: 0,
+        b: 0,
       },
       updatemenus,
       sliders,
@@ -335,6 +354,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
 
   const plot = await Plotly.newPlot("trajectory-plot", traces, layout, {
     responsive: true,
+    displaylogo: false,
   });
 
   await lockCanvas(is2D, plot);
