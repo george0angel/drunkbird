@@ -1,3 +1,10 @@
+:root {
+  --main-darker-color: rgb(45, 20, 20);
+  --main-dark-color: rgb(65, 45, 45);
+  --main-light-color: rgb(180, 100, 100);
+  --main-background-color: rgb(255, 245, 245);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -8,8 +15,8 @@ body {
   padding: 1em;
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  color: #000;
-  background: rgb(255, 245, 245);
+  color: var(--main-darker-color);
+  background: var(--main-background-color);
 }
 
 header {
@@ -32,7 +39,7 @@ header {
 .header-image {
   display: none;
   position: relative;
-  background-image: url("../assets/header_background.svg");
+  background-image: url("/assets/header_background.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
@@ -48,7 +55,11 @@ header {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 245, 245, 0.4);
+  background-color: color-mix(
+    in srgb,
+    var(--main-background-color) 40%,
+    transparent
+  );
 }
 
 @media (min-width: 40em) {
@@ -69,8 +80,8 @@ header {
 
 footer {
   margin-top: 2em;
-  border-top: 1px solid #ccc;
-  color: #666;
+  border-top: 1px solid var(--main-dark-color);
+  color: var(--main-dark-color);
   font-size: small;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -121,7 +132,7 @@ h2 {
 
 form {
   padding: 1em;
-  border: 1px solid #bbb;
+  border: 1px solid var(--main-dark-color);
 }
 
 form input[type="number"] {
@@ -156,7 +167,7 @@ button:disabled {
   display: block;
   width: 100%;
   height: min(40em, calc(100cqi * 4 / 3));
-  border: 1px solid #999;
+  border: 1px solid var(--main-dark-color);
   overflow: hidden;
   background: white;
 }
@@ -209,7 +220,7 @@ dd {
   font-family: "Times New Roman", serif;
   font-size: 4rem;
   font-weight: normal;
-  color: #000;
+  color: var(--main-dark-color);
   letter-spacing: 0rem;
   line-height: 2;
 }
