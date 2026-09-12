@@ -1,23 +1,12 @@
 <!doctype html>
 <html lang="en">
-  <head>
+  <head id="site-head">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>drunkbird.net</title>
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
-    <header>
-      <div class="header-text">
-        <div class="logo">
-          <span>d</span><span>r</span><span>u</span><span>n</span><span>k</span
-          ><span>b</span><span>i</span><span>r</span><span>d</span
-          ><span class="logo-domain">.net</span>
-        </div>
-      </div>
-      <div class="header-image"></div>
-    </header>
+    <header id="site-header"></header>
 
     <main>
       <h2>Random walk simulator</h2>
@@ -305,30 +294,13 @@
       </div>
     </main>
 
-    <footer>
-      <div class="footer-quote">
-        <p>
-          “A drunk man will find his way home, but a drunk bird may get lost
-          forever.” —Shizuo Kakutani
-        </p>
-      </div>
-      <div class="footer-repo">
-        <p>
-          <a href="https://github.com/george0angel/drunkbird"
-            ><img
-              alt="GitHub"
-              height="25rem"
-              src="./assets/GitHub_Invertocat_Black.svg"
-          /></a>
-        </p>
-      </div>
-    </footer>
+    <footer id="site-footer"></footer>
 
+    <script type="module" src="/js/layout.js"></script>
     <script
       src="https://cdn.plot.ly/plotly-3.7.0.min.js"
       charset="utf-8"
     ></script>
-
-    <script type="module" src="./js/simulator/app.js"></script>
+    <script type="module" src="/js/simulator/app.js"></script>
   </body>
 </html>
