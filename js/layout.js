@@ -14,3 +14,5 @@ document.querySelector(`#site-header`).innerHTML +=
 
 document.querySelector(`#site-footer`).innerHTML +=
   htmlFiles[`${folder}footer.html`];
+
+document.body.style.opacity = 1;
