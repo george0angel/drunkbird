@@ -116,8 +116,33 @@ footer {
   white-space: nowrap;
 }
 
-nav a {
-  margin-right: 1em;
+header nav {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+header nav ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 0.7em 0.8em;
+  text-decoration: none;
+}
+
+header nav ul li a:hover {
+  background-color: var(--main-light-color);
+}
+
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--main-dark-color);
+}
+
+header nav ul li {
+  float: left;
 }
 
 main {
