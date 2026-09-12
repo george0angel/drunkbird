@@ -6,13 +6,16 @@ const htmlFiles = import.meta.glob(`/content/layout/*.html`, {
 
 const folder = `/content/layout/`;
 
-document.querySelector(`#site-head`).innerHTML +=
-  htmlFiles[`${folder}head.html`];
+document
+  .querySelector(`#site-head`)
+  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}head.html`]);
 
-document.querySelector(`#site-header`).innerHTML +=
-  htmlFiles[`${folder}header.html`];
+document
+  .querySelector(`#site-header`)
+  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}header.html`]);
 
-document.querySelector(`#site-footer`).innerHTML +=
-  htmlFiles[`${folder}footer.html`];
+document
+  .querySelector(`#site-footer`)
+  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}footer.html`]);
 
 document.body.style.opacity = 1;
