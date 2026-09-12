@@ -15,9 +15,10 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
+    "glob": "^13.0.6",
     "globals": "^17.11.0",
     "prettier": "^3.9.6",
-    "vite": "^8.2.1"
+    "vite": "7.3.6"
   },
   "dependencies": {
     "@datastructures-js/priority-queue": "^6.4.0",
