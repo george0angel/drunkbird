@@ -22,7 +22,6 @@ body {
 header {
   position: relative;
   padding: 0 0;
-  border-bottom: 1px solid #ccc;
   overflow: hidden;
   display: grid;
   grid-template-columns: max-content 1fr;
