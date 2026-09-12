@@ -266,3 +266,46 @@ dd {
     transform: rotate(-14deg) translateY(-0.02em) translateX(-0.02em);
   }
 }
+
+/* Markdown */
+
+md-content {
+  display: block;
+}
+
+.md-content-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid;
+  border-left-width: 4px;
+  border-radius: 0.4rem;
+}
+
+.md-content-box__title {
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+}
+
+.md-content-box--blue,
+.md-content-box--def {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+.md-content-box--purple,
+.md-content-box--thm {
+  background: #f5f3ff;
+  border-color: #7c3aed;
+}
+
+.md-content-box--red,
+.md-content-box--sources,
+.md-content-box--deeper {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.md-content-box--green {
+  background: #f0fdf4;
+  border-color: #16a34a;
+}

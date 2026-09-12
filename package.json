@@ -20,6 +20,10 @@
     "vite": "^8.2.1"
   },
   "dependencies": {
-    "@datastructures-js/priority-queue": "^6.4.0"
+    "@datastructures-js/priority-queue": "^6.4.0",
+    "@mdit/plugin-container": "^2.0.1",
+    "@mdit/plugin-katex": "^1.1.1",
+    "katex": "^0.18.7",
+    "markdown-it": "^15.0.2"
   }
 }
