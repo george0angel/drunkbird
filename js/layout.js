@@ -1,21 +1,15 @@
-const htmlFiles = import.meta.glob(`/content/layout/*.html`, {
-  query: `?raw`,
-  import: `default`,
-  eager: true,
-});
+import headHtml from "/content/layout/head.html?raw";
+import headerHtml from "/content/layout/header.html?raw";
+import footerHtml from "/content/layout/footer.html?raw";
 
-const folder = `/content/layout/`;
+document.querySelector("#site-head").insertAdjacentHTML("beforeend", headHtml);
 
 document
-  .querySelector(`#site-head`)
-  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}head.html`]);
+  .querySelector("#site-header")
+  .insertAdjacentHTML("beforeend", headerHtml);
 
 document
-  .querySelector(`#site-header`)
-  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}header.html`]);
-
-document
-  .querySelector(`#site-footer`)
-  .insertAdjacentHTML(`beforeend`, htmlFiles[`${folder}footer.html`]);
+  .querySelector("#site-footer")
+  .insertAdjacentHTML("beforeend", footerHtml);
 
 document.body.style.opacity = 1;
