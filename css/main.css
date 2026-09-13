@@ -226,7 +226,7 @@ h2 {
   line-height: 1.2;
 }
 
-.simulation-layout {
+#site-simulator {
   display: grid;
   grid-template-columns: 16em 1fr;
   gap: 1.5em;
@@ -300,7 +300,7 @@ dd {
 }
 
 @media (max-width: 44em) {
-  .simulation-layout {
+  #site-simulator {
     grid-template-columns: 1fr;
   }
 
