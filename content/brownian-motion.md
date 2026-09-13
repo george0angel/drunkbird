@@ -34,7 +34,7 @@ X_t\overset{d}{=}W_t+x+\mu t
 dX_t=\mu\,dt+\sigma\,dW_t.
 $$
 
-Toying with these variables on our simulator **[hyperlink here]** one can see that drift, in a sense, causes the motion to prefer moving in a certain direction depending on the sign of $\mu$, and how much it prefers to move in said direction is quantified by the size of $\mu$. Then we can see as $\sigma^2$ increases the motion gets, in a manner of speaking, more jagged or more random.
+Toying with these variables on our [simulator](/) one can see that drift, in a sense, causes the motion to prefer moving in a certain direction depending on the sign of $\mu$, and how much it prefers to move in said direction is quantified by the size of $\mu$. Then we can see as $\sigma^2$ increases the motion gets, in a manner of speaking, more jagged or more random.
 
 It's natural to ask why the three conditions in the definition have been chosen.
 
