@@ -2,11 +2,14 @@
   --main-darker-color: rgb(45, 20, 20);
   --main-dark-color: rgb(65, 45, 45);
   --main-light-color: rgb(180, 100, 100);
+  --main-lighter-color: rgb(245, 210, 210);
+  --main-lightest-color: rgb(250, 235, 235);
   --main-background-color: rgb(255, 245, 245);
 }
 
 * {
   box-sizing: border-box;
+  border-radius: 0.2em;
 }
 
 body {
@@ -163,6 +166,11 @@ h2 {
 form {
   padding: 1em;
   border: 1px solid var(--main-dark-color);
+  background-color: var(--main-lightest-color);
+}
+
+form input {
+  border: 1px solid var(--main-dark-color);
 }
 
 form input[type="number"] {
@@ -177,14 +185,20 @@ form select {
   margin-top: 2px;
   margin-bottom: 4px;
   padding: 6px;
+  border: 1px solid var(--main-dark-color);
+  background-color: var(--main-lighter-color);
 }
 
-button {
-  padding: 8px 14px;
+form button {
+  padding: 0.7em 0.8em;
   cursor: pointer;
+  background-color: var(--main-lighter-color);
+  border: 1px solid var(--main-dark-color);
+  font-size: 1em;
+  width: 100%;
 }
 
-button:disabled {
+form button:disabled {
   cursor: wait;
 }
 
