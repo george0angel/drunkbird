@@ -455,11 +455,11 @@ async function drawAnimated(result, graphMode, animationDuration) {
   });
 }
 
-function draw(result) {
+async function draw(result) {
   const graphMode = document.querySelector("#graph-mode").value;
   const animationDuration =
     Number(document.querySelector("#animation").value) * 1000;
-  drawAnimated(result, graphMode, animationDuration);
+  await drawAnimated(result, graphMode, animationDuration);
 }
 
 function showSummary(result) {
@@ -517,7 +517,7 @@ async function simulate(event) {
   try {
     latestResult = await runWorker(readParameters());
     document.querySelector("#seed").value = latestResult.parameters.seed;
-    draw(latestResult);
+    await draw(latestResult);
     showSummary(latestResult);
     status.textContent = "Complete";
   } catch (error) {

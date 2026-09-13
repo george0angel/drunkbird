@@ -14,10 +14,24 @@
   <body>
     <header id="site-header"></header>
 
-    <main>Work in progress...</main>
+    <main>
+      <h2>Brownian Motion Simulator</h2>
+      <p>
+        Particles move randomly and split into new branches at random time
+        intervals.
+      </p>
+
+      <input type="hidden" id="process-type" value="bm" />
+      <div id="site-simulator"></div>
+    </main>
 
     <footer id="site-footer"></footer>
 
     <script type="module" src="/js/layout.js"></script>
+    <script
+      src="https://cdn.plot.ly/plotly-3.7.0.min.js"
+      charset="utf-8"
+    ></script>
+    <script type="module" src="/js/simulator/app.js"></script>
   </body>
 </html>

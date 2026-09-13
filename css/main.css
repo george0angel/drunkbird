@@ -2,11 +2,14 @@
   --main-darker-color: rgb(45, 20, 20);
   --main-dark-color: rgb(65, 45, 45);
   --main-light-color: rgb(180, 100, 100);
+  --main-lighter-color: rgb(245, 210, 210);
+  --main-lightest-color: rgb(250, 235, 235);
   --main-background-color: rgb(255, 245, 245);
 }
 
 * {
   box-sizing: border-box;
+  border-radius: 0.2em;
 }
 
 body {
@@ -17,12 +20,14 @@ body {
   line-height: 1.5;
   color: var(--main-darker-color);
   background: var(--main-background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 header {
   position: relative;
   padding: 0 0;
-  overflow: hidden;
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: start;
@@ -33,6 +38,7 @@ header {
   padding-right: 0em;
   display: flex;
   z-index: 1;
+  overflow: hidden;
 }
 
 .header-image {
@@ -86,6 +92,7 @@ header {
 footer {
   margin-top: 2em;
   border-top: 1px solid var(--main-dark-color);
+  border-radius: 0;
   color: var(--main-dark-color);
   font-size: small;
   display: grid;
@@ -102,7 +109,7 @@ footer {
   justify-self: end;
 }
 
-@media (min-width: 20em) {
+@media (min-width: 17em) {
   .footer-quote {
     display: block;
   }
@@ -115,37 +122,103 @@ footer {
   white-space: nowrap;
 }
 
-header nav {
+.navbar {
   grid-column: 1 / -1;
+  display: flex;
   width: 100%;
+  background: var(--main-dark-color);
+  overflow: visible;
+  position: relative;
+  z-index: 1;
 }
 
-header nav ul li a {
+.navbar > a,
+.dropdown > summary {
   display: block;
-  color: white;
-  text-align: center;
   padding: 0.7em 0.8em;
+  color: white;
   text-decoration: none;
+  cursor: pointer;
+  user-select: none;
 }
 
-header nav ul li a:hover {
-  background-color: var(--main-light-color);
+.dropdown {
+  position: relative;
 }
 
-header nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: var(--main-dark-color);
+.dropdown > summary {
+  list-style: none;
 }
 
-header nav ul li {
-  float: left;
+.dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown > summary::after {
+  content: "\00a0\25BE";
+}
+
+.dropdown[open] > summary::after {
+  content: "\00a0\25B4";
+}
+
+.navbar > a:hover,
+.dropdown > summary:hover,
+.dropdown[open] > summary {
+  background: var(--main-light-color);
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 10em;
+  background: var(--main-dark-color);
+  box-shadow: 0 8px 16px
+    color-mix(in srgb, var(--main-darker-color) 25%, transparent);
+  z-index: 1;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 0.7em 0.8em;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+  background: var(--main-light-color);
+}
+
+@media (max-width: 22em) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .navbar > a,
+  .dropdown > summary {
+    width: 100%;
+    text-align: left;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    box-shadow: none;
+  }
+
+  .dropdown-content a {
+    padding-left: 1.6em;
+  }
 }
 
 main {
   padding: 1em 0;
+  flex: 1;
 }
 
 h1,
@@ -154,7 +227,7 @@ h2 {
   line-height: 1.2;
 }
 
-.simulation-layout {
+#site-simulator {
   display: grid;
   grid-template-columns: 16em 1fr;
   gap: 1.5em;
@@ -162,6 +235,11 @@ h2 {
 
 form {
   padding: 1em;
+  border: 1px solid var(--main-dark-color);
+  background-color: var(--main-lightest-color);
+}
+
+form input {
   border: 1px solid var(--main-dark-color);
 }
 
@@ -177,14 +255,20 @@ form select {
   margin-top: 2px;
   margin-bottom: 4px;
   padding: 6px;
+  border: 1px solid var(--main-dark-color);
+  background-color: var(--main-lighter-color);
 }
 
-button {
-  padding: 8px 14px;
+form button {
+  padding: 0.7em 0.8em;
   cursor: pointer;
+  background-color: var(--main-lighter-color);
+  border: 1px solid var(--main-dark-color);
+  font-size: 1em;
+  width: 100%;
 }
 
-button:disabled {
+form button:disabled {
   cursor: wait;
 }
 
@@ -217,7 +301,7 @@ dd {
 }
 
 @media (max-width: 44em) {
-  .simulation-layout {
+  #site-simulator {
     grid-template-columns: 1fr;
   }
 
