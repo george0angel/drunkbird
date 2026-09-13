@@ -7,14 +7,21 @@ import githubIconUrl from "/assets/GitHub_Invertocat_Black.svg?url";
 
 document.querySelector("#site-head").insertAdjacentHTML("beforeend", headHtml);
 document.querySelector("#site-favicon").href = faviconUrl;
+const head = document.querySelector("#site-head");
+if (head) {
+  head.insertAdjacentHTML("beforeend", headHtml);
+  document.querySelector("#site-favicon").href = faviconUrl;
+}
 
 document
   .querySelector("#site-header")
   .insertAdjacentHTML("beforeend", headerHtml);
+const header = document.querySelector("#site-header");
+if (header) header.insertAdjacentHTML("beforeend", headerHtml);
 
-document
-  .querySelector("#site-footer")
-  .insertAdjacentHTML("beforeend", footerHtml);
+const footer = document.querySelector("#site-footer");
+if (footer) footer.insertAdjacentHTML("beforeend", footerHtml);
+
 document.querySelector("#github-icon").src = githubIconUrl;
 
 document.body.style.opacity = 1;
