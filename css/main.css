@@ -20,6 +20,9 @@ body {
   line-height: 1.5;
   color: var(--main-darker-color);
   background: var(--main-background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 header {
@@ -177,10 +180,6 @@ footer {
   border-top-right-radius: 0;
 }
 
-/* .dropdown-content > a::before {
-  content: "\2022\2002";
-} */
-
 .dropdown-content a {
   display: block;
   padding: 0.7em 0.8em;
@@ -218,6 +217,7 @@ footer {
 
 main {
   padding: 1em 0;
+  flex: 1;
 }
 
 h1,
