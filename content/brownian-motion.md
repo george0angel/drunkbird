@@ -46,7 +46,7 @@ The next natural question any mathematician should ask is: **is Brownian motion 
 
 ::: thm Existence of the Brownian Motion
 
-The Brownian motion is well-defined, it exists and is unique.
+The Brownian motion is well-defined: it exists and is unique.
 
 :::
 
