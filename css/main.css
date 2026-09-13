@@ -53,6 +53,7 @@ header {
   margin-left: -0.1px;
   margin-right: 0;
   z-index: 0;
+  border-radius: 0;
 }
 
 .header-image::after {
