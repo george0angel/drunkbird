@@ -92,6 +92,7 @@ header {
 footer {
   margin-top: 2em;
   border-top: 1px solid var(--main-dark-color);
+  border-radius: 0;
   color: var(--main-dark-color);
   font-size: small;
   display: grid;
