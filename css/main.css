@@ -105,7 +105,7 @@ footer {
   justify-self: end;
 }
 
-@media (min-width: 20em) {
+@media (min-width: 17em) {
   .footer-quote {
     display: block;
   }
