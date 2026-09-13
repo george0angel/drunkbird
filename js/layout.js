@@ -18,3 +18,11 @@ document
 document.querySelector("#github-icon").src = githubIconUrl;
 
 document.body.style.opacity = 1;
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".dropdown")) {
+    document.querySelectorAll(".dropdown[open]").forEach((dropdown) => {
+      dropdown.removeAttribute("open");
+    });
+  }
+});
