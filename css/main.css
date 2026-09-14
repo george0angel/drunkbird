@@ -425,13 +425,13 @@ md-content {
 }
 
 .md-content-box--red,
-.md-content-box--sources,
-.md-content-box--deeper {
+.md-content-box--sources {
   background: #fef2f2;
   border-color: #dc2626;
 }
 
-.md-content-box--green {
+.md-content-box--green,
+.md-content-box--deeper {
   background: #f0fdf4;
   border-color: #16a34a;
 }
