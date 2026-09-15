@@ -169,6 +169,20 @@ $$
 
 ## Properties
 
+Arising from the definition of Brownian motion are some interesting qualities. The first result describes transformations of the Brownian motion that preserve its distribution. 
+
+::: thm Invariant Transformations of Brownian Motion
+
+Let $(W_t)_{t\in [0,T]}$ be a Brownian motion. Then each of the following transformations are also a Brownian motion.
+1. Reflection in the x-axis: $(-W_t)_{t\in [0,T]}$
+2. Rescaling: $(c^{-1/2}W_{ct})_{t\in [0,T/c]}$
+3. Time reversal: $(W_T-W_{T-t})_{t\in [0,T]}$
+4. Time inversion: if instead $(W_t)_{t\ge 0}$, then $(tW_{1/t})_{t\ge 0}$ is a Brownian motion. 
+
+:::
+
+It is a good exercise to check each of these satisfy the definition of a Brownian Motion. 
+
 ## The Maximum and the Arcsine Laws
 
 ## Hitting Times and Recurrence

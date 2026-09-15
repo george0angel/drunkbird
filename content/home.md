@@ -4,6 +4,6 @@ Probability, the study of randomness, can help answer these questions. The answe
 
 Many observable processes can be modelled as *stochastic processes*. Unfortunately, we pure mathematicians don't tend to think about the real world, so these random processes can often seem very abstract at first.
 
-The aim of **drunkbird.net** is to make these abstract random processes easier to understand. Here, you can visualise stochastic processes, experiment with them, and see how they behave—without having to write a line of code. You can also find notes explaining the mathematics behind what you hopefully observe.
+The aim of **drunkbird.net** is to make these abstract random processes easier to understand. You can visualise stochastic processes, experiment with them, and see how they behave, all without having to write a line of code. You can also find notes explaining the mathematics behind what you hopefully observe.
 
 Maths is not a spectator sport, the best way to learn is to try it yourself!
