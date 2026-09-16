@@ -81,15 +81,52 @@ function addBox(name, label) {
   });
 }
 
+addBox(`blue`, ``);
 addBox(`def`, `Definition`);
+addBox(`definition`, `Definition`);
+addBox(`keypoint`, `Key Point`);
+addBox(`sum`, `Summary`);
+addBox(`summary`, `Summary`);
+
+addBox(`purple`, ``);
 addBox(`thm`, `Theorem`);
-addBox(`deeper`, `Deeper Reading`);
-addBox(`sources`, `Reference Texts`);
+addBox(`theorem`, `Theorem`);
 
 addBox(`red`, ``);
-addBox(`blue`, ``);
-addBox(`purple`, ``);
+addBox(`warn`, `Warning`);
+addBox(`warning`, `Warning`);
+addBox(`pitfall`, `Common Pitfall`);
+
 addBox(`green`, ``);
+addBox(`pf`, `Proof`);
+addBox(`proof`, `Proof`);
+
+addBox(`orange`, ``);
+addBox(`exercise`, `Exercise`);
+addBox(`tryit`, `Try it Yourself`);
+
+addBox(`yellow`, ``);
+addBox(`intuition`, `Intuition`);
+addBox(`insight`, `Insight`);
+
+addBox(`cyan`, ``);
+addBox(`ex`, `Example`);
+addBox(`example`, `Example`);
+
+addBox(`magenta`, ``);
+addBox(`deeper`, `Deeper Reading`);
+
+addBox(`white`, ``);
+addBox(`sources`, `Sources`);
+addBox(`refs`, `Reference Texts`);
+addBox(`references`, `Reference Texts`);
+
+addBox(`grey`, ``);
+addBox(`rem`, `Remark`);
+addBox(`remark`, `Remark`);
+addBox(`note`, `Note`);
+addBox(`hist`, `History`);
+addBox(`history`, `History`);
 
 const mdFiles = import.meta.glob(`/content/**/*.md`, {
   query: `?raw`,
