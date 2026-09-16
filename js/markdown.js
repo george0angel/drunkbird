@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 import { container } from "@mdit/plugin-container";
+import { footnote } from "@mdit/plugin-footnote";
 import DOMPurify from "dompurify";
 
 import "katex/dist/katex.min.css";
@@ -49,7 +50,7 @@ md.use(katex, {
     "\\andtext": "\\;\\text{ and }\\;",
     "\\real": "\\mathbb{R}",
   },
-});
+}).use(footnote);
 
 function addBox(name, label) {
   function registerBox(containerName, collapsible, open) {
@@ -150,6 +151,14 @@ class MarkdownContent extends HTMLElement {
     const src = this.getAttribute(`src`);
     const markdown = await mdFiles[`/content/${src}`]();
     this.innerHTML = DOMPurify.sanitize(md.render(markdown));
+    this.querySelectorAll(`.footnote-ref a, .footnote-backref`).forEach(
+      (footnote) => {
+        const link = footnote.getAttribute(`href`);
+        if (link?.startsWith(`#`)) {
+          footnote.setAttribute(`href`, `${window.location.pathname}${link}`);
+        }
+      },
+    );
   }
 }
 
