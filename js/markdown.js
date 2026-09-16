@@ -52,33 +52,44 @@ md.use(katex, {
 });
 
 function addBox(name, label) {
-  md.use(container, {
-    name,
+  function registerBox(containerName, collapsible, open) {
+    md.use(container, {
+      name: containerName,
 
-    openRenderer(tokens, index) {
-      const info = tokens[index].info.trim();
-      const title = md.utils.escapeHtml(info.slice(name.length).trim());
+      openRenderer(tokens, index) {
+        const info = tokens[index].info.trim();
 
-      if (label === ``) {
+        const title = info.slice(containerName.length).trim();
+
+        const heading =
+          label === "" ? title : `${label}${title ? ` (${title})` : ""}`;
+
+        if (collapsible) {
+          return `
+            <details class="md-content-box md-content-box--${name}"${open ? "open" : ""}>
+              <summary class="md-content-box__title">
+                ${heading}
+              </summary>
+          `;
+        }
+
         return `
           <aside class="md-content-box md-content-box--${name}">
-              <div class="md-content-box__title">
-                ${label}${title}
-              </div>
-          `;
-      }
-      return `
-        <aside class="md-content-box md-content-box--${name}">
-          <div class="md-content-box__title">
-            ${label}${title ? ` (${title})` : ""}
-          </div>
+            <div class="md-content-box__title">
+              ${heading}
+            </div>
         `;
-    },
+      },
 
-    closeRenderer() {
-      return "</aside>\n";
-    },
-  });
+      closeRenderer() {
+        return collapsible ? "</details>\n" : "</aside>\n";
+      },
+    });
+  }
+
+  registerBox(name, false, false);
+  registerBox(`${name}-`, true, false);
+  registerBox(`${name}+`, true, true);
 }
 
 addBox(`blue`, ``);
@@ -122,6 +133,7 @@ addBox(`refs`, `Reference Texts`);
 addBox(`references`, `Reference Texts`);
 
 addBox(`grey`, ``);
+addBox(`gray`, ``);
 addBox(`rem`, `Remark`);
 addBox(`remark`, `Remark`);
 addBox(`note`, `Note`);
