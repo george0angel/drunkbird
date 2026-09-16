@@ -1,11 +1,12 @@
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 import { container } from "@mdit/plugin-container";
+import DOMPurify from "dompurify";
 
 import "katex/dist/katex.min.css";
 
 const md = new MarkdownIt({
-  html: false,
+  html: true,
   linkify: true,
   typographer: true,
 });
@@ -99,7 +100,7 @@ class MarkdownContent extends HTMLElement {
   async connectedCallback() {
     const src = this.getAttribute(`src`);
     const markdown = await mdFiles[`/content/${src}`]();
-    this.innerHTML = await md.render(markdown);
+    this.innerHTML = DOMPurify.sanitize(md.render(markdown));
   }
 }
 
