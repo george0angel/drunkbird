@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head id="site-head">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="%BASE_URL%" />
+    <style>
+      body {
+        opacity: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header id="site-header"></header>
+
+    <main>
+      <h1>Markdown Examples</h1>
+      <p>
+        Get to this page by pasting "/content/example/index.html" after the base
+        url (e.g http://localhost:5173/content/example/index.html).
+      </p>
+
+      <p>
+        The following is the output from example.md which shows some of the
+        features added beyond plain markdown-it. See the
+        <a href="https://markdown-it.github.io/">markdown-it live demo</a> to
+        see the other features available from base markdown-it.
+      </p>
+
+      <h2>
+        <b><i>Output:</i></b>
+      </h2>
+
+      <md-content src="example/example.md"></md-content>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script type="module" src="/js/layout.js"></script>
+    <script type="module" src="/js/markdown.js"></script>
+  </body>
+</html>
