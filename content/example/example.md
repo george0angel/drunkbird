@@ -32,7 +32,7 @@ $$
 
 ## Comments
 
-Comment using `<!-- Comment text. -->`. Commented text will not be rendered.
+Comment using `<!-- Comment text. -->`. In VS Code, the command `Shift+Alt+A` can be used to comment out selected text or `Ctrl+/` to comment whole lines. Commented text will not be rendered.
 
 <!-- This is commented out. -->
 
