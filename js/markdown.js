@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 import { container } from "@mdit/plugin-container";
+import { footnote } from "@mdit/plugin-footnote";
 import DOMPurify from "dompurify";
 
 import "katex/dist/katex.min.css";
@@ -49,47 +50,96 @@ md.use(katex, {
     "\\andtext": "\\;\\text{ and }\\;",
     "\\real": "\\mathbb{R}",
   },
-});
+}).use(footnote);
 
 function addBox(name, label) {
-  md.use(container, {
-    name,
+  function registerBox(containerName, collapsible, open) {
+    md.use(container, {
+      name: containerName,
 
-    openRenderer(tokens, index) {
-      const info = tokens[index].info.trim();
-      const title = md.utils.escapeHtml(info.slice(name.length).trim());
+      openRenderer(tokens, index) {
+        const info = tokens[index].info.trim();
 
-      if (label === ``) {
+        const title = info.slice(containerName.length).trim();
+
+        const heading =
+          label === "" ? title : `${label}${title ? ` (${title})` : ""}`;
+
+        if (collapsible) {
+          return `
+            <details class="md-content-box md-content-box--${name}"${open ? "open" : ""}>
+              <summary class="md-content-box__title">
+                ${heading}
+              </summary>
+          `;
+        }
+
         return `
           <aside class="md-content-box md-content-box--${name}">
-              <div class="md-content-box__title">
-                ${label}${title}
-              </div>
-          `;
-      }
-      return `
-        <aside class="md-content-box md-content-box--${name}">
-          <div class="md-content-box__title">
-            ${label}${title ? ` (${title})` : ""}
-          </div>
+            <div class="md-content-box__title">
+              ${heading}
+            </div>
         `;
-    },
+      },
 
-    closeRenderer() {
-      return "</aside>\n";
-    },
-  });
+      closeRenderer() {
+        return collapsible ? "</details>\n" : "</aside>\n";
+      },
+    });
+  }
+
+  registerBox(name, false, false);
+  registerBox(`${name}-`, true, false);
+  registerBox(`${name}+`, true, true);
 }
 
+addBox(`blue`, ``);
 addBox(`def`, `Definition`);
+addBox(`definition`, `Definition`);
+addBox(`keypoint`, `Key Point`);
+addBox(`sum`, `Summary`);
+addBox(`summary`, `Summary`);
+
+addBox(`purple`, ``);
 addBox(`thm`, `Theorem`);
-addBox(`deeper`, `Deeper Reading`);
-addBox(`sources`, `Reference Texts`);
+addBox(`theorem`, `Theorem`);
 
 addBox(`red`, ``);
-addBox(`blue`, ``);
-addBox(`purple`, ``);
+addBox(`warn`, `Warning`);
+addBox(`warning`, `Warning`);
+addBox(`pitfall`, `Common Pitfall`);
+
 addBox(`green`, ``);
+addBox(`pf`, `Proof`);
+addBox(`proof`, `Proof`);
+
+addBox(`orange`, ``);
+addBox(`exercise`, `Exercise`);
+addBox(`tryit`, `Try it Yourself`);
+
+addBox(`yellow`, ``);
+addBox(`intuition`, `Intuition`);
+addBox(`insight`, `Insight`);
+
+addBox(`cyan`, ``);
+addBox(`ex`, `Example`);
+addBox(`example`, `Example`);
+
+addBox(`magenta`, ``);
+addBox(`deeper`, `Deeper Reading`);
+
+addBox(`white`, ``);
+addBox(`sources`, `Sources`);
+addBox(`refs`, `Reference Texts`);
+addBox(`references`, `Reference Texts`);
+
+addBox(`grey`, ``);
+addBox(`gray`, ``);
+addBox(`rem`, `Remark`);
+addBox(`remark`, `Remark`);
+addBox(`note`, `Note`);
+addBox(`hist`, `History`);
+addBox(`history`, `History`);
 
 const mdFiles = import.meta.glob(`/content/**/*.md`, {
   query: `?raw`,
@@ -101,6 +151,14 @@ class MarkdownContent extends HTMLElement {
     const src = this.getAttribute(`src`);
     const markdown = await mdFiles[`/content/${src}`]();
     this.innerHTML = DOMPurify.sanitize(md.render(markdown));
+    this.querySelectorAll(`.footnote-ref a, .footnote-backref`).forEach(
+      (footnote) => {
+        const link = footnote.getAttribute(`href`);
+        if (link?.startsWith(`#`)) {
+          footnote.setAttribute(`href`, `${window.location.pathname}${link}`);
+        }
+      },
+    );
   }
 }
 

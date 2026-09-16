@@ -193,7 +193,7 @@ One can use the same idea to prove the other transformations are also Brownian m
 
 **Why are these interesting?** The rescaling property tells us that Brownian motion is a *fractal*.
 
-::: green 
+::: orange
 **Coming soon: explore these properties on our simulator.** 
 :::
 

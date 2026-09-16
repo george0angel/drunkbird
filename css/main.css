@@ -412,26 +412,99 @@ md-content {
   font-weight: bold;
 }
 
+details.md-content-box > summary {
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+details.md-content-box[open] > summary {
+  margin-bottom: 0.75em;
+}
+
+/* Definition / Key Point / Summary */
 .md-content-box--blue,
-.md-content-box--def {
+.md-content-box--def,
+.md-content-box--definition,
+.md-content-box--keypoint,
+.md-content-box--sum,
+.md-content-box--summary {
   background: #eff6ff;
   border-color: #2563eb;
 }
 
+/* Theorem */
 .md-content-box--purple,
-.md-content-box--thm {
+.md-content-box--thm,
+.md-content-box--theorem {
   background: #f5f3ff;
   border-color: #7c3aed;
 }
 
+/* Warning / Common Pitfall */
 .md-content-box--red,
-.md-content-box--sources {
-  background: #fef2f2;
+.md-content-box--warn,
+.md-content-box--warning,
+.md-content-box--pitfall {
+  background: #ffebeb;
   border-color: #dc2626;
 }
 
+/* Proof */
 .md-content-box--green,
-.md-content-box--deeper {
+.md-content-box--pf,
+.md-content-box--proof {
   background: #f0fdf4;
   border-color: #16a34a;
+}
+
+/* Exercise / Try it Yourself */
+.md-content-box--orange,
+.md-content-box--exercise,
+.md-content-box--tryit {
+  background: #fff7ed;
+  border-color: #ea580c;
+}
+
+/* Intuition / Insight */
+.md-content-box--yellow,
+.md-content-box--intuition,
+.md-content-box--insight {
+  background: #fefce8;
+  border-color: #ca8a04;
+}
+
+/* Example */
+.md-content-box--cyan,
+.md-content-box--ex,
+.md-content-box--example {
+  background: #ecfeff;
+  border-color: #0891b2;
+}
+
+/* Deeper Reading */
+.md-content-box--magenta,
+.md-content-box--deeper {
+  background: #fdf2f8;
+  border-color: #db2777;
+}
+
+/* Sources / Reference Texts */
+.md-content-box--white,
+.md-content-box--sources,
+.md-content-box--refs,
+.md-content-box--references {
+  background: #ffffff;
+  border-color: #475569;
+}
+
+/* Remark / Note / History */
+.md-content-box--grey,
+.md-content-box--gray,
+.md-content-box--rem,
+.md-content-box--remark,
+.md-content-box--note,
+.md-content-box--hist,
+.md-content-box--history {
+  background: #f8fafc;
+  border-color: #64748b;
 }
