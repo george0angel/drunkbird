@@ -268,4 +268,8 @@ Footnote 3^[Text of footnote.].
 
 [^2]: Footnote sentence.
 
-More of this footnote.
+    More of the same footnote.
+
+<!-- Notice that leaving a tab space allows a new paragraph to be part of the same footnote. -->
+
+More words.
