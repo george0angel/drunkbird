@@ -169,22 +169,20 @@ $$
 
 ## Properties
 
-Arising from the definition of Brownian motion are some interesting qualities. The first result describes transformations of the Brownian motion that preserve its distribution. 
+Arising from the definition of Brownian motion are some interesting qualities. The first result describes transformations of the Brownian motion that preserve its distribution.
 
-:::: thm Invariant Transformations of Brownian Motion
+:::: thm+ Invariant Transformations of Brownian Motion
 Let $(W_t)_{t\in [0,T]}$ be a Brownian motion. Then each of the following transformations are also a Brownian motion.
+
 1. Reflection in the x-axis: $(-W_t)_{t\in [0,T]}$
 2. Rescaling: $(c^{-1/2}W_{ct})_{t\in [0,T/c]}$
 3. Time reversal: $(W_T-W_{T-t})_{t\in [0,T]}$
-4. Time inversion: if instead $(W_t)_{t\ge 0}$, then $(tW_{1/t})_{t\ge 0}$ is a Brownian motion. 
-
-
-
+4. Time inversion: if instead $(W_t)_{t\ge 0}$, then $(tW_{1/t})_{t\ge 0}$ is a Brownian motion.
 
 ::: proof- Invariant Transformations of Brownian Motion
 Let $W_t$ be a Brownian motion. Let's check $-W_t$ is also a Brownian motion. Firstly, $-W_0 = 0$ and the function $f(x)=-x$ is continuous so $t\mapsto -W_t$ is also almost surely continuous.
 
-Secondly, for some $u>0$, $-W_{t+u}+W_t$ needs to be independent of $-W_s$ for all $0\le s \le t$. There are many ways to argue this. Here, we use $\sigma$-algebras. Let $\mathcal{F}_t = \sigma(W_s:0\le s \le t)$ be the natural filtration of the process. Since $W$ is a Brownian motion, we already have that $\sigma(W_{t+u}-W_t)$ is independent of $\mathcal{F}_t$. But $-W_t$ is $\mathcal{F}_t$-measurable and $-W_{t+u}+W_t$ is $\sigma(W_{t+u}-W_t)$-measurable. It follows that $-W_{t+u}+W_t$ is independent of $-W_s$ for all $0\le s \le t$, as required. 
+Secondly, for some $u>0$, $-W_{t+u}+W_t$ needs to be independent of $-W_s$ for all $0\le s \le t$. There are many ways to argue this. Here, we use $\sigma$-algebras. Let $\mathcal{F}_t = \sigma(W_s:0\le s \le t)$ be the natural filtration of the process. Since $W$ is a Brownian motion, we already have that $\sigma(W_{t+u}-W_t)$ is independent of $\mathcal{F}_t$. But $-W_t$ is $\mathcal{F}_t$-measurable and $-W_{t+u}+W_t$ is $\sigma(W_{t+u}-W_t)$-measurable. It follows that $-W_{t+u}+W_t$ is independent of $-W_s$ for all $0\le s \le t$, as required.
 
 Finally, $-W_{t+u}+W_t = -(W_{t+u}-W_t)$. Since $W_{t+u}-W_t\sim \mathcal{N}(0,u)$, then it's negative has the same distribution.
 
@@ -196,12 +194,11 @@ One can use the same idea to prove the other transformations are also Brownian m
 It is a good exercise to check each of these satisfy the definition of a Brownian Motion yourself. You can open the proof below to see an example of proving the first is a Brownian motion as a hint.  
 :::
 
-**Why are these interesting?** The rescaling property tells us that Brownian motion is a *fractal*. Essentially, if you zoom into a path of Brownian motion you still see a Brownian motion. It has detail at infinitesimally small scales. This arises from the construction and the *Central Limit Theorem*. 
+**Why are these interesting?** The rescaling property tells us that Brownian motion is a _fractal_. Essentially, if you zoom into a path of Brownian motion you still see a Brownian motion. It has detail at infinitesimally small scales. This arises from the construction and the _Central Limit Theorem_.
 
-::: tryit 
-**Coming soon: explore these properties on our simulator.** 
+::: tryit
+**Coming soon: explore these properties on our simulator.**
 :::
-
 
 <!-- ## The Maximum and the Arcsine Laws -->
 
