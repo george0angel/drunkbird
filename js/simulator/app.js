@@ -298,6 +298,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
     },
   ];
 
+  const zerolinecolor2D = "#aaa";
   let layout;
 
   if (is2D) {
@@ -305,11 +306,13 @@ async function drawAnimated(result, graphMode, animationDuration) {
       xaxis: {
         title: { text: graphMode === "xt" ? "Time" : "X" },
         domain: [0.07, 0.97],
+        zerolinecolor: zerolinecolor2D,
       },
 
       yaxis: {
         title: { text: graphMode === "xt" ? "X" : "Y" },
         domain: [0.07, 0.96],
+        zerolinecolor: zerolinecolor2D,
       },
 
       margin: {
