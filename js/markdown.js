@@ -62,8 +62,9 @@ function addBox(name, label) {
 
         const title = info.slice(containerName.length).trim();
 
-        const heading =
-          label === "" ? title : `${label}${title ? ` (${title})` : ""}`;
+        const heading = md.renderInline(
+          label === "" ? title : `${label}${title ? ` (${title})` : ""}`,
+        );
 
         if (collapsible) {
           return `
