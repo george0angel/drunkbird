@@ -399,6 +399,13 @@ md-content {
   display: block;
 }
 
+md-content .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.3em;
+}
+
 .md-content-box {
   margin: 1.5em 0;
   padding: 0.75em 1em 0em;
