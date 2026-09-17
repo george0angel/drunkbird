@@ -76,9 +76,13 @@ function addBox(name, label) {
 
         return `
           <aside class="md-content-box md-content-box--${name}">
-            <div class="md-content-box__title">
-              ${heading}
-            </div>
+            ${
+              heading
+                ? `<div class="md-content-box__title">
+                     ${heading}
+                   </div>`
+                : ""
+            }
         `;
       },
 

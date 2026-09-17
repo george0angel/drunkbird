@@ -418,8 +418,35 @@ md-content .katex-display {
   margin: 0 -0.5em;
 }
 
+aside.md-content-box {
+  padding-bottom: 0.75em;
+}
+
+aside.md-content-box > :first-child {
+  margin-top: 0;
+}
+
+details.md-content-box > :nth-child(1) {
+  margin-bottom: 0.75em;
+}
+
+/* Collapsible title spacing, 0em relative. */
+details.md-content-box > :nth-child(2) {
+  margin-top: 0em;
+}
+
+aside.md-content-box > :last-child {
+  margin-bottom: 0;
+}
+
+details.md-content-box > :last-child {
+  margin-bottom: 0.75em;
+}
+
+/* Title spacing, -0.25em relative. */
 .md-content-box__title {
   font-weight: bold;
+  margin-bottom: -0.25em;
 }
 
 details.md-content-box > summary {
