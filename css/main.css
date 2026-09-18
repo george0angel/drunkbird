@@ -1,3 +1,5 @@
+@import "katex/dist/katex.min.css";
+
 :root {
   --main-darker-color: rgb(45, 20, 20);
   --main-dark-color: rgb(65, 45, 45);
@@ -14,6 +16,7 @@
 
 body {
   max-width: 80em;
+  min-width: 18em;
   margin: 0 auto;
   padding: 1em;
   font-family: Arial, sans-serif;
@@ -103,16 +106,16 @@ footer {
 }
 
 .footer-quote {
-  display: none;
+  display: block;
 }
 
 .footer-repo {
   justify-self: end;
 }
 
-@media (min-width: 17em) {
+@media (max-width: 17em) {
   .footer-quote {
-    display: block;
+    display: none;
   }
 }
 
@@ -399,7 +402,8 @@ md-content {
   display: block;
 }
 
-md-content .katex-display {
+md-content .katex-display,
+md-content pre {
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;

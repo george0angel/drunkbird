@@ -2,9 +2,6 @@ import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 import { container } from "@mdit/plugin-container";
 import { footnote } from "@mdit/plugin-footnote";
-import DOMPurify from "dompurify";
-
-import "katex/dist/katex.min.css";
 
 const md = new MarkdownIt({
   html: true,
@@ -59,7 +56,6 @@ function addBox(name, label) {
 
       openRenderer(tokens, index) {
         const info = tokens[index].info.trim();
-
         const title = info.slice(containerName.length).trim();
 
         const heading = md.renderInline(
@@ -68,7 +64,7 @@ function addBox(name, label) {
 
         if (collapsible) {
           return `
-            <details class="md-content-box md-content-box--${name}"${open ? "open" : ""}>
+            <details class="md-content-box md-content-box--${name}"${open ? " open" : ""}>
               <summary class="md-content-box__title">
                 ${heading}
               </summary>
@@ -98,73 +94,55 @@ function addBox(name, label) {
   registerBox(`${name}+`, true, true);
 }
 
-addBox(`blue`, ``);
-addBox(`def`, `Definition`);
-addBox(`definition`, `Definition`);
-addBox(`keypoint`, `Key Point`);
-addBox(`sum`, `Summary`);
-addBox(`summary`, `Summary`);
+addBox("blue", "");
+addBox("def", "Definition");
+addBox("definition", "Definition");
+addBox("keypoint", "Key Point");
+addBox("sum", "Summary");
+addBox("summary", "Summary");
 
-addBox(`purple`, ``);
-addBox(`thm`, `Theorem`);
-addBox(`theorem`, `Theorem`);
+addBox("purple", "");
+addBox("thm", "Theorem");
+addBox("theorem", "Theorem");
 
-addBox(`red`, ``);
-addBox(`warn`, `Warning`);
-addBox(`warning`, `Warning`);
-addBox(`pitfall`, `Common Pitfall`);
+addBox("red", "");
+addBox("warn", "Warning");
+addBox("warning", "Warning");
+addBox("pitfall", "Common Pitfall");
 
-addBox(`green`, ``);
-addBox(`pf`, `Proof`);
-addBox(`proof`, `Proof`);
+addBox("green", "");
+addBox("pf", "Proof");
+addBox("proof", "Proof");
 
-addBox(`orange`, ``);
-addBox(`exercise`, `Exercise`);
-addBox(`tryit`, `Try it Yourself`);
+addBox("orange", "");
+addBox("exercise", "Exercise");
+addBox("tryit", "Try it Yourself");
 
-addBox(`yellow`, ``);
-addBox(`intuition`, `Intuition`);
-addBox(`insight`, `Insight`);
+addBox("yellow", "");
+addBox("intuition", "Intuition");
+addBox("insight", "Insight");
 
-addBox(`cyan`, ``);
-addBox(`ex`, `Example`);
-addBox(`example`, `Example`);
+addBox("cyan", "");
+addBox("ex", "Example");
+addBox("example", "Example");
 
-addBox(`magenta`, ``);
-addBox(`deeper`, `Deeper Reading`);
+addBox("magenta", "");
+addBox("deeper", "Deeper Reading");
 
-addBox(`white`, ``);
-addBox(`sources`, `Sources`);
-addBox(`refs`, `Reference Texts`);
-addBox(`references`, `Reference Texts`);
+addBox("white", "");
+addBox("sources", "Sources");
+addBox("refs", "Reference Texts");
+addBox("references", "Reference Texts");
 
-addBox(`grey`, ``);
-addBox(`gray`, ``);
-addBox(`rem`, `Remark`);
-addBox(`remark`, `Remark`);
-addBox(`note`, `Note`);
-addBox(`hist`, `History`);
-addBox(`history`, `History`);
+addBox("grey", "");
+addBox("gray", "");
+addBox("rem", "Remark");
+addBox("remark", "Remark");
+addBox("note", "Note");
+addBox("hist", "History");
+addBox("history", "History");
 
-const mdFiles = import.meta.glob(`/content/**/*.md`, {
-  query: `?raw`,
-  import: `default`,
-});
-
-class MarkdownContent extends HTMLElement {
-  async connectedCallback() {
-    const src = this.getAttribute(`src`);
-    const markdown = await mdFiles[`/content/${src}`]();
-    this.innerHTML = DOMPurify.sanitize(md.render(markdown));
-    this.querySelectorAll(`.footnote-ref a, .footnote-backref`).forEach(
-      (footnote) => {
-        const link = footnote.getAttribute(`href`);
-        if (link?.startsWith(`#`)) {
-          footnote.setAttribute(`href`, `${window.location.pathname}${link}`);
-        }
-      },
-    );
-  }
+export async function renderMarkdown(source) {
+  let html = md.render(source, env);
+  return html;
 }
-
-customElements.define(`md-content`, MarkdownContent);

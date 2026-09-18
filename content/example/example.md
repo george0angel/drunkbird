@@ -238,17 +238,25 @@ or
 You can also use html tags. For example `<b>text</b>` could be used to make <b>text</b> bold though it is recommended to use markdown syntax instead where possible.
 
 ::: rem Escape Characters
-To write '&lt;', type '&amp;lt;'.
+To write some characters you will sometimes need to escape them first with a backslash. For example, to write
 
-Likewise, for '&gt;', type '&amp;gt;'.
+'\<', type '\\\<',
+
+'\>', type '\\\>',
+
+'\`', type '\\\`',
+
+'\\' type '\\\\'.
+
 :::
 
 ::: warn
-DOMPurify will remove scripts.
+Scripts will not be removed.
 
+<!-- The following script will run if uncommented.
 <script>
-  alert("DOMPurify will remove scripts.");
-</script>
+  alert("This script has run.");
+</script> -->
 
 :::
 
