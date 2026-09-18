@@ -1,4 +1,4 @@
-# Markdown Examples
+# example.md
 
 ## KaTeX
 
@@ -291,7 +291,7 @@ To write some characters you will sometimes need to escape them first with a bac
 :::
 
 ::: warn
-Scripts will not be removed.
+Scripts will not be removed and will run.
 
 <!-- The following script will run if uncommented.
 <script>
