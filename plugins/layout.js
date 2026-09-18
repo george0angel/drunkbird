@@ -30,8 +30,13 @@ export function layoutPlugin() {
     transformIndexHtml: {
       order: "pre",
 
-      async handler(html, context) {
+      async handler(html) {
         const { document } = parseHTML(html);
+
+        const originalPageTitle = document.querySelector("#site-head > title");
+        const hadOriginalPageTitle = originalPageTitle !== null;
+        const pageTitle = originalPageTitle?.textContent.trim() ?? "";
+        originalPageTitle?.remove();
 
         const [headHtml, headerHtml, simulatorHtml, footerHtml] =
           await Promise.all([
@@ -75,6 +80,21 @@ export function layoutPlugin() {
             link.setAttribute("href", `${base}${href.slice(1)}`);
           }
         });
+
+        const title = document.querySelector("#site-head > title");
+        const headTitle = title?.textContent.trim() ?? "";
+
+        const heading =
+          document
+            .querySelector(
+              "main h1, main h2, main h3, main h4, main h5, main h6",
+            )
+            ?.textContent.trim() ?? "";
+
+        if (title) {
+          const prefix = hadOriginalPageTitle ? pageTitle : heading;
+          title.textContent = prefix ? `${prefix} | ${headTitle}` : headTitle;
+        }
 
         return document.toString();
       },
