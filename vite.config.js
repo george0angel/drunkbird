@@ -5,6 +5,7 @@ import { layoutPlugin } from "./plugins/layout.js";
 
 export default defineConfig({
   base: process.env.SITE_BASE || "/",
+  appType: "mpa",
   plugins: [layoutPlugin()],
   build: {
     rollupOptions: {
