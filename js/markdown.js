@@ -23,6 +23,7 @@ md.use(katex, {
     "\\condprob": "\\mathbb{P}\\left( #1 \\middle| #2 \\right)",
     "\\condExp": "\\mathbb{E}\\left[ #1 \\middle| #2 \\right]",
     "\\indicator": "\\mathbf{1}_{\\left\\{ #1 \\right\\}}",
+    "\\Var": "\\text{Var}\\left( #1 \\right)",
 
     // Convex hull
     "\\Hull": "\\mathcal{H}",
