@@ -23,6 +23,7 @@
     "katex": "^0.18.7",
     "linkedom": "^0.18.13",
     "markdown-it": "^15.0.2",
+    "node-tikzjax": "^1.0.5",
     "prettier": "^3.9.6",
     "vite": "7.3.6",
     "wrangler": "^4.134.0"

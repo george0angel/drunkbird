@@ -1,4 +1,5 @@
 @import "katex/dist/katex.min.css";
+@import "node-tikzjax/css/fonts.css";
 
 :root {
   --main-darker-color: rgb(45, 20, 20);
@@ -403,11 +404,17 @@ md-content {
 }
 
 md-content .katex-display,
+md-content .tikz,
 md-content pre {
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 0.3em;
+}
+
+md-content .tikz {
+  text-align: center;
+  margin-bottom: -1em;
 }
 
 .md-content-box {

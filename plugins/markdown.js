@@ -2,6 +2,7 @@ import MarkdownIt from "markdown-it";
 import { katex } from "@mdit/plugin-katex";
 import { container } from "@mdit/plugin-container";
 import { footnote } from "@mdit/plugin-footnote";
+import tikzjax from "node-tikzjax";
 
 const md = new MarkdownIt({
   html: true,
@@ -142,7 +143,55 @@ addBox("note", "Note");
 addBox("hist", "History");
 addBox("history", "History");
 
+const originalFence = md.renderer.rules.fence;
+
+md.renderer.rules.fence = (tokens, index, options, env, self) => {
+  const token = tokens[index];
+
+  if (token.info.trim() === "tikz") {
+    const id = env.tikz.length;
+    env.tikz.push(token.content);
+    return `<!--2gSl6P8p:${id}-->`;
+  }
+
+  return originalFence(tokens, index, options, env, self);
+};
+
+let tikzQueue = Promise.resolve();
+const tikzCache = new Map();
+
+function renderTikz(source) {
+  if (tikzCache.has(source)) {
+    return tikzCache.get(source);
+  }
+
+  const result = tikzQueue.then(() =>
+    tikzjax.default(`\\begin{document}
+               ${source}
+             \\end{document}`),
+  );
+
+  tikzQueue = result.catch(() => {});
+  tikzCache.set(source, result);
+
+  result.catch(() => {
+    tikzCache.delete(source);
+  });
+
+  return result;
+}
+
 export async function renderMarkdown(source) {
+  const env = { tikz: [] };
+
   let html = md.render(source, env);
+
+  for (const [i, tikzItem] of env.tikz.entries()) {
+    const svg = await renderTikz(tikzItem);
+    html = html.replace(
+      `<!--2gSl6P8p:${i}-->`,
+      `<div class="tikz">${svg}</div>`,
+    );
+  }
   return html;
 }
