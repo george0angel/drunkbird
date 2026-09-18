@@ -194,11 +194,18 @@ export async function renderMarkdown(source) {
   let html = md.render(source, env);
 
   for (const [i, tikzItem] of env.tikz.entries()) {
-    const svg = scaleSvg(await renderTikz(tikzItem));
-    html = html.replace(
-      `<!--2gSl6P8p:${i}-->`,
-      `<div class="tikz">${svg}</div>`,
-    );
+    try {
+      const svg = scaleSvg(await renderTikz(tikzItem));
+      html = html.replace(
+        `<!--2gSl6P8p:${i}-->`,
+        `<div class="tikz">${svg}</div>`,
+      );
+    } catch (error) {
+      html = html.replace(
+        `<!--2gSl6P8p:${i}-->`,
+        `<pre class="tikz-fail"><div>ERROR:</div>${md.utils.escapeHtml(env.tikz[i])}</pre>`,
+      );
+    }
   }
   return html;
 }

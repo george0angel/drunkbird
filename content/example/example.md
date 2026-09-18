@@ -56,6 +56,20 @@ This example renders to:
 \end{tikzpicture}
 ```
 
+::: note
+If the TikZ code is invalid and fails the code will be printed in an error box:
+
+```tikz
+\begin{tikzpicture}
+  \draw[->] (0,0) -- (4,0) node[right] {$x$};
+  \damdekmfe[->] (0,0) -- (0,3) node[above] {$y$};
+
+  \draw[blue] (0,0) to[bend right=20] (4,3);
+\end{tikzpicture}
+```
+
+:::
+
 ## Comments
 
 Comment using `<!-- Comment text. -->`. In VS Code, the command `Shift+Alt+A` can be used to comment out selected text or `Ctrl+/` to comment whole lines. Commented text will not be rendered.
