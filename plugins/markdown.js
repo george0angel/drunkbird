@@ -181,13 +181,20 @@ function renderTikz(source) {
   return result;
 }
 
+// Scale is such that TikZ maths is the same size and KaTeX maths.
+function scaleSvg(svg, scale = 1.452) {
+  return svg
+    .replace(/width="([\d.]+)"/, (_, width) => `width="${width * scale}"`)
+    .replace(/height="([\d.]+)"/, (_, height) => `height="${height * scale}"`);
+}
+
 export async function renderMarkdown(source) {
   const env = { tikz: [] };
 
   let html = md.render(source, env);
 
   for (const [i, tikzItem] of env.tikz.entries()) {
-    const svg = await renderTikz(tikzItem);
+    const svg = scaleSvg(await renderTikz(tikzItem));
     html = html.replace(
       `<!--2gSl6P8p:${i}-->`,
       `<div class="tikz">${svg}</div>`,
