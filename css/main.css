@@ -476,6 +476,23 @@ details.md-content-box > summary {
   margin-bottom: 0.75em;
 }
 
+details.md-content-box > summary {
+  list-style: none;
+}
+
+details.md-content-box > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.md-content-box > summary::before {
+  content: "\25B6\2060";
+}
+
+details.md-content-box[open] > summary::before {
+  content: "\25BC\2060";
+  margin-inline-start: -0.13em;
+}
+
 /* Definition / Key Point / Summary */
 .md-content-box--blue,
 .md-content-box--def,
