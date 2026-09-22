@@ -228,8 +228,20 @@
 
   <h3>Summary</h3>
   <dl>
+    <div data-mode="xy xyz" style="display: none">
+      <dt>Maximum distance at end-time</dt>
+      <dd id="max-final-distance">—</dd>
+    </div>
 
+    <div data-mode="xy xyz" style="display: none">
+      <dt>All-time maximum distance</dt>
+      <dd id="max-distance">—</dd>
+    </div>
 
+    <div data-mode="xy xyz" style="display: none">
+      <dt>Time of maximum distance</dt>
+      <dd id="max-distance-time">—</dd>
+    </div>
 
     <div data-mode="x" style="display: none">
       <dt>Maximum position at end-time</dt>
@@ -257,12 +269,15 @@
     </div>
 
     <div data-mode="x xy xyz" style="display: none">
+      <dt>First branch time</dt>
+      <dd id="first-branch-time">—</dd>
+    </div>
+
+    <div data-mode="x xy xyz" style="display: none">
       <dt>Maximum generation at end-time</dt>
       <dd id="maximum-generation">—</dd>
     </div>
 
-    <dt>Mean final position</dt>
-    <dd id="mean-final-position">—</dd>
     <!-- Currently not used. -->
     <div data-process="" style="display: none">
       <dt>All-time particles created</dt>
@@ -272,6 +287,16 @@
     <div data-mode="x xy xyz" style="display: none">
       <dt>Population at end-time</dt>
       <dd id="final-population">—</dd>
+    </div>
+
+    <div data-mode="x xy xyz" data-process="rw" style="display: none">
+      <dt>Total origin visits</dt>
+      <dd id="origin-visits">—</dd>
+    </div>
+
+    <div data-mode="x" data-process="rw" style="display: none">
+      <dt>Proportion of time positive</dt>
+      <dd id="proportion-time-positive">—</dd>
     </div>
   </dl>
 

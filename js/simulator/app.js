@@ -13,6 +13,12 @@ const summary = {
   maxPosition: document.querySelector("#max-position"),
   minFinalPosition: document.querySelector("#min-final-position"),
   maxFinalPosition: document.querySelector("#max-final-position"),
+  maxFinalDistance: document.querySelector("#max-final-distance"),
+  maxDistance: document.querySelector("#max-distance"),
+  maxDistanceTime: document.querySelector("#max-distance-time"),
+  firstBranchTime: document.querySelector("#first-branch-time"),
+  originVisits: document.querySelector("#origin-visits"),
+  proportionTimePositive: document.querySelector("#proportion-time-positive"),
   summaryNote: document.querySelector("#summary-note"),
 };
 
@@ -466,24 +472,44 @@ async function draw(result) {
 }
 
 function showSummary(result) {
-  summary.finalPopulation.textContent = result.summary.finalPopulation;
-  summary.particlesCreated.textContent = result.summary.totalParticlesCreated;
-  summary.maximumGeneration.textContent = result.summary.maximumGeneration;
-  summary.meanFinalPosition.textContent = result.summary.meanFinalPosition
-    .map((value) => value.toFixed(3))
-    .join(", ");
-  summary.minPosition.textContent = result.summary.minPosition
-    .map((value) => value.toFixed(3))
-    .join(", ");
-  summary.maxPosition.textContent = result.summary.maxPosition
-    .map((value) => value.toFixed(3))
-    .join(", ");
-  summary.minFinalPosition.textContent = result.summary.minFinalPosition
-    .map((value) => value.toFixed(3))
-    .join(", ");
-  summary.maxFinalPosition.textContent = result.summary.maxFinalPosition
-    .map((value) => value.toFixed(3))
-    .join(", ");
+  function format(item) {
+    return item === null || item === undefined
+      ? "—"
+      : []
+          .concat(item)
+          .map((value) => parseFloat(value.toFixed(3)))
+          .join(", ");
+  }
+
+  summary.finalPopulation.textContent = format(result.summary.finalPopulation);
+  summary.particlesCreated.textContent = format(
+    result.summary.totalParticlesCreated,
+  );
+  summary.maximumGeneration.textContent = format(
+    result.summary.maximumGeneration,
+  );
+  summary.meanFinalPosition.textContent = format(
+    result.summary.meanFinalPosition,
+  );
+  summary.minPosition.textContent = format(result.summary.minPosition);
+  summary.maxPosition.textContent = format(result.summary.maxPosition);
+  summary.minFinalPosition.textContent = format(
+    result.summary.minFinalPosition,
+  );
+  summary.maxFinalPosition.textContent = format(
+    result.summary.maxFinalPosition,
+  );
+
+  summary.maxFinalDistance.textContent = format(
+    result.summary.maxFinalDistance,
+  );
+  summary.maxDistance.textContent = format(result.summary.maxDistance);
+  summary.maxDistanceTime.textContent = format(result.summary.maxDistanceTime);
+  summary.firstBranchTime.textContent = format(result.summary.firstBranchTime);
+  summary.originVisits.textContent = format(result.summary.originVisits);
+  summary.proportionTimePositive.textContent = format(
+    result.summary.proportionTimePositive,
+  );
   summary.summaryNote.textContent = result.summary.populationCapReached
     ? "The population cap was reached."
     : "The population cap was not reached.";
