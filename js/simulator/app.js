@@ -13,7 +13,7 @@ const summary = {
   maxPosition: document.querySelector("#max-position"),
   minFinalPosition: document.querySelector("#min-final-position"),
   maxFinalPosition: document.querySelector("#max-final-position"),
-  note: document.querySelector("#note"),
+  summaryNote: document.querySelector("#summary-note"),
 };
 
 const worker = new Worker(new URL("./worker.js", import.meta.url), {
@@ -484,7 +484,7 @@ function showSummary(result) {
   summary.maxFinalPosition.textContent = result.summary.maxFinalPosition
     .map((value) => value.toFixed(3))
     .join(", ");
-  summary.note.textContent = result.summary.populationCapReached
+  summary.summaryNote.textContent = result.summary.populationCapReached
     ? "The population cap was reached."
     : "The population cap was not reached.";
 }
@@ -515,7 +515,7 @@ async function simulate(event) {
   }
 
   status.textContent = "Running...";
-  summary.note.textContent = "";
+  summary.summaryNote.textContent = "";
 
   try {
     latestResult = await runWorker(readParameters());
@@ -525,7 +525,7 @@ async function simulate(event) {
     status.textContent = "Complete";
   } catch (error) {
     status.textContent = "Error";
-    summary.note.textContent = error.message;
+    summary.summaryNote.textContent = error.message;
   } finally {
     button.disabled = false;
   }
@@ -657,23 +657,7 @@ document.querySelectorAll('input[type="number"]').forEach((input) => {
   );
 });
 
-// Process selection handler and input visibility.
-const hideableFields = document.querySelectorAll(`div[data-process]`);
-const hideableDimensions = document.querySelectorAll(`[data-mode]`);
 const inputFields = document.querySelectorAll(`input`);
-
-function updateVisibility() {
-  const processType = document.getElementById(`process-type`).value;
-  for (const field of hideableFields) {
-    const allowedParameters = field.dataset.process.split(` `);
-
-    if (allowedParameters.includes(processType)) {
-      field.style.display = "";
-    } else {
-      field.style.display = "none";
-    }
-  }
-}
 
 function updateEnabled() {
   for (const field of inputFields) {
@@ -705,32 +689,77 @@ function updateEnabled() {
   }
 }
 
-function updateDimensions() {
+const processModeFields = document.querySelectorAll(
+  "[data-process][data-mode]",
+);
+const processFields = document.querySelectorAll(
+  "[data-process]:not([data-mode])",
+);
+const modeFields = document.querySelectorAll("[data-mode]:not([data-process])");
+
+function updateInputs(type = "all") {
+  const processType = document.getElementById(`process-type`).value;
   const graphMode = document.getElementById(`graph-mode`).value;
   const dimensions = graphMode.replaceAll(`t`, ``);
-  for (const field of hideableDimensions) {
-    const allowedParameters = field.dataset.mode.split(` `);
 
-    if (allowedParameters.includes(dimensions)) {
-      field.style.display = "";
-    } else {
-      field.style.display = "none";
+  function update(fields, datasets) {
+    for (const field of fields) {
+      let allowedParameters;
+      switch (datasets) {
+        case "both":
+          allowedParameters = [
+            field.dataset.process.split(` `),
+            field.dataset.mode.split(` `),
+          ];
+          break;
+        case "process":
+          allowedParameters = [field.dataset.process.split(` `), [dimensions]];
+          break;
+        case "mode":
+          allowedParameters = [[processType], field.dataset.mode.split(` `)];
+          break;
+      }
+
+      if (
+        allowedParameters[0].includes(processType) &&
+        allowedParameters[1].includes(dimensions)
+      ) {
+        field.style.display = "contents";
+      } else {
+        field.style.display = "none";
+      }
     }
+    return;
+  }
+
+  switch (type) {
+    case "all":
+      update(processFields, "process");
+      update(modeFields, "mode");
+      update(processModeFields, "both");
+      return;
+    case "process":
+      update(processFields, "process");
+      update(processModeFields, "both");
+      return;
+    case "mode":
+      update(modeFields, "mode");
+      update(processModeFields, "both");
+      return;
   }
 }
 
 document
   .getElementById(`process-type`)
-  .addEventListener(`change`, updateVisibility);
+  .addEventListener(`change`, () => updateInputs("process"));
 
 document
   .getElementById(`graph-mode`)
-  .addEventListener(`change`, updateDimensions);
+  .addEventListener(`change`, () => updateInputs("mode"));
 
 document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
   checkbox.addEventListener(`change`, updateEnabled);
 });
 
-updateVisibility();
 updateEnabled();
-updateDimensions();
+updateInputs("all");

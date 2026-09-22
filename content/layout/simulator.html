@@ -45,7 +45,7 @@
         </label>
 
         <label data-mode="xy xyz" style="display: none">
-          Y
+          <span>Y</span>
           <input
             id="diffusion-y"
             type="number"
@@ -58,7 +58,7 @@
         </label>
 
         <label data-mode="xyz" style="display: none">
-          Z
+          <span>Z</span>
           <input
             id="diffusion-z"
             type="number"
@@ -91,7 +91,7 @@
         </label>
 
         <label data-mode="xy xyz" style="display: none">
-          Y
+          <span>Y</span>
           <input
             id="drift-y"
             type="number"
@@ -104,7 +104,7 @@
         </label>
 
         <label data-mode="xyz" style="display: none">
-          Z
+          <span>Z</span>
           <input
             id="drift-z"
             type="number"
@@ -132,10 +132,11 @@
         value="0.3"
       />
     </label>
-    <label
-      ><span style="font-size: small">Enabled?</span
-      ><input id="branching-on" type="checkbox" checked
-    /></label>
+    <label>
+      <span style="font-size: small">Enabled?</span
+      ><input id="branching-on" type="checkbox" checked />
+      <br />
+    </label>
   </div>
 
   <div data-process="bm rw" style="display: none">
@@ -166,10 +167,11 @@
         value="300"
       />
     </label>
-    <label
-      ><span style="font-size: small">Enabled?</span
-      ><input id="max-particles-on" type="checkbox" checked
-    /></label>
+    <label>
+      <span style="font-size: small">Enabled?</span
+      ><input id="max-particles-on" type="checkbox" checked />
+      <br />
+    </label>
   </div>
 
   <div data-process="bm" style="display: none">
@@ -194,8 +196,9 @@
     </label>
     <label
       ><span style="font-size: small">Enabled?</span
-      ><input id="seed-on" type="checkbox" checked
-    /></label>
+      ><input id="seed-on" type="checkbox" checked />
+      <br />
+    </label>
   </div>
 
   <div data-process="bm rw" style="display: none">
@@ -225,30 +228,52 @@
 
   <h3>Summary</h3>
   <dl>
-    <dt>Particles created</dt>
-    <dd id="particles-created">—</dd>
 
-    <dt>Maximum generation</dt>
-    <dd id="maximum-generation">—</dd>
 
-    <dt>Maximum particle position</dt>
-    <dd id="max-position">—</dd>
 
-    <dt>Minimum particle position</dt>
-    <dd id="min-position">—</dd>
+    <div data-mode="x" style="display: none">
+      <dt>Maximum position at end-time</dt>
+      <dd id="max-final-position">—</dd>
+    </div>
 
-    <dt>Final population</dt>
-    <dd id="final-population">—</dd>
+    <div data-mode="x" style="display: none">
+      <dt>Minimum position at end-time</dt>
+      <dd id="min-final-position">—</dd>
+    </div>
 
-    <dt>Maximum final particle position</dt>
-    <dd id="max-final-position">—</dd>
+    <div data-mode="x" style="display: none">
+      <dt>All-time maximum position</dt>
+      <dd id="max-position">—</dd>
+    </div>
 
-    <dt>Minimum final particle position</dt>
-    <dd id="min-final-position">—</dd>
+    <div data-mode="x" style="display: none">
+      <dt>All-time minimum position</dt>
+      <dd id="min-position">—</dd>
+    </div>
+
+    <div data-mode="x xy xyz" style="display: none">
+      <dt>Mean final position</dt>
+      <dd id="mean-final-position">—</dd>
+    </div>
+
+    <div data-mode="x xy xyz" style="display: none">
+      <dt>Maximum generation at end-time</dt>
+      <dd id="maximum-generation">—</dd>
+    </div>
 
     <dt>Mean final position</dt>
     <dd id="mean-final-position">—</dd>
+    <!-- Currently not used. -->
+    <div data-process="" style="display: none">
+      <dt>All-time particles created</dt>
+      <dd id="particles-created">—</dd>
+    </div>
+
+    <div data-mode="x xy xyz" style="display: none">
+      <dt>Population at end-time</dt>
+      <dd id="final-population">—</dd>
+    </div>
   </dl>
 
-  <p id="note"></p>
+  <p id="summary-note"></p>
 </section>
