@@ -411,6 +411,8 @@ export function simulateProcess(payload) {
   let maxFinalPosition = Array(dimensions).fill(-Infinity);
 
   let index = 0;
+  let maxSqDist = 0;
+
   for (const particleId of activeIds) {
     const position = particles[particleId].position;
 
@@ -435,12 +437,81 @@ export function simulateProcess(payload) {
       const newDifference = currentPosition - meanFinalPosition[dimensionIndex];
       sumOfSquares[dimensionIndex] += difference * newDifference;
     }
+
+    let sqDist = 0;
+    for (let i = 0; i < dimensions; i++) {
+      sqDist += particles[particleId].position[i] ** 2;
+    }
+    maxSqDist = Math.max(maxSqDist, sqDist);
+
     index++;
   }
 
   const variance = sumOfSquares.map(
     (sumOfSquare) => sumOfSquare / activeIds.size,
   );
+
+  const maxFinalDistance = Math.sqrt(maxSqDist);
+
+  const endTime = steps * dt;
+  let maxDistanceTime = endTime;
+
+  let firstBranchTime = null;
+
+  let proportionTimePositive = null;
+  let positiveSteps = 0;
+  let totalSteps = 0;
+  let originVisits = processType === "rw" ? 0 : null;
+
+  function isAtOrigin(position) {
+    for (let i = 0; i < dimensions; i++) {
+      if (position[i] !== 0) return false;
+    }
+    return true;
+  }
+
+  for (const particle of particles) {
+    for (const [time, position] of particle.path) {
+      let sqDist = 0;
+      for (let i = 0; i < dimensions; i++) {
+        sqDist += position[i] ** 2;
+      }
+      if (sqDist >= maxSqDist) {
+        if (sqDist > maxSqDist) {
+          maxSqDist = sqDist;
+          maxDistanceTime = time;
+        } else if (time < maxDistanceTime) {
+          maxDistanceTime = time;
+        }
+      }
+
+      if (processType === "rw") {
+        if (isAtOrigin(position)) {
+          originVisits += 1;
+        }
+        if (dimensions === 1) {
+          totalSteps += 1;
+
+          if (position[0] > 0) {
+            positiveSteps += 1;
+          }
+        }
+      }
+    }
+
+    if (
+      particle.parentId !== null &&
+      (firstBranchTime === null || particle.birthTime < firstBranchTime)
+    ) {
+      firstBranchTime = particle.birthTime;
+    }
+  }
+
+  const maxDistance = Math.sqrt(maxSqDist);
+
+  if (processType === "rw" && dimensions === 1 && totalSteps > 0) {
+    proportionTimePositive = positiveSteps / totalSteps;
+  }
 
   return {
     parameters: {
@@ -465,7 +536,7 @@ export function simulateProcess(payload) {
 
     summary: {
       startTime: 0,
-      endTime: steps * dt,
+      endTime,
       finalPopulation: activeIds.size,
       totalParticlesCreated: particles.length,
       maximumGeneration,
@@ -475,6 +546,12 @@ export function simulateProcess(payload) {
       maxPosition,
       minFinalPosition,
       maxFinalPosition,
+      maxFinalDistance,
+      maxDistance,
+      maxDistanceTime,
+      firstBranchTime,
+      originVisits,
+      proportionTimePositive,
       populationCapReached:
         maxParticles !== 0 && activeIds.size >= maxParticles,
       steps,
