@@ -119,6 +119,98 @@
     </div>
   </div>
 
+  <div data-process="rw" style="display: none">
+    <div>
+      Step direction relative frequency
+      <div class="dimensions-table">
+        <label data-mode="x xy xyz" style="display: none">
+          <span data-mode="xy xyz" style="display: none">X&nbsp;&nbsp;</span
+          ><span style="font-weight: normal">+</span>
+          <input
+            id="p-positive-x"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+
+        <label data-mode="x xy xyz" style="display: none">
+          <span style="font-weight: normal">-</span>
+          <input
+            id="p-negative-x"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+      </div>
+
+      <div class="dimensions-table">
+        <label data-mode="xy xyz" style="display: none">
+          <span style="display: contents">Y&nbsp;&nbsp;</span
+          ><span style="font-weight: normal">+</span>
+          <input
+            id="p-positive-y"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+
+        <label data-mode="xy xyz" style="display: none">
+          <span style="font-weight: normal">-</span>
+          <input
+            id="p-negative-y"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+      </div>
+
+      <div class="dimensions-table">
+        <label data-mode="xyz" style="display: none">
+          <span style="display: contents">Z&nbsp;&nbsp;</span
+          ><span style="font-weight: normal">+</span>
+          <input
+            id="p-positive-z"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+
+        <label data-mode="xyz" style="display: none">
+          <span style="font-weight: normal">-</span>
+          <input
+            id="p-negative-z"
+            type="number"
+            min="0"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="1"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
+
   <div data-process="bm rw" style="display: none">
     <label>
       Branching rate

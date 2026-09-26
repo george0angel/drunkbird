@@ -25,11 +25,24 @@ function createIntegerRandom(seed) {
   };
 }
 
-function createBinaryRandom(seed) {
+function createWeightedRandom(seed, pList) {
   const integerRandom = createIntegerRandom(seed);
 
-  return function nextBinary() {
-    return integerRandom() & 1;
+  const thresholds = [];
+  let pSum = 0;
+  for (const p of pList) {
+    pSum += p;
+    thresholds.push(Math.floor(pSum * 4294967296));
+  }
+
+  return function nextWeighted() {
+    const randomPositiveInteger = integerRandom() >>> 0;
+    for (let i = 0; i < thresholds.length; i++) {
+      if (randomPositiveInteger < thresholds[i]) {
+        return i;
+      }
+    }
+    return thresholds.length - 1;
   };
 }
 
@@ -275,11 +288,14 @@ export function simulateProcess(payload) {
   const maxParticles = Number(payload.maxParticles);
   const startingPosition = payload.startingPosition.map(Number);
   const seed = Number(payload.seed);
+  const directionProbabilities = payload.directionProbabilities.map(Number);
 
   const dimensions = startingPosition.length;
 
-  const binaryRandom = createBinaryRandom(splitSeed(seed, 0));
-  const boundedRandom = createBoundedRandom(splitSeed(seed, 1));
+  const weightedRandom = createWeightedRandom(
+    splitSeed(seed, 0),
+    directionProbabilities,
+  );
 
   let maximumGeneration = 1;
   minPosition = [...startingPosition];
@@ -302,7 +318,7 @@ export function simulateProcess(payload) {
       0,
       0,
       startingPosition,
-      splitSeed(seed, index + 3),
+      splitSeed(seed, index + 1),
       branchingRate,
       processType,
     );
@@ -324,9 +340,9 @@ export function simulateProcess(payload) {
     if (processType === `rw`) {
       for (const particleId of activeIds) {
         const particle = particles[particleId];
+        const direction = weightedRandom();
 
-        particle.position[boundedRandom(particle.position.length)] +=
-          -1 + 2 * binaryRandom();
+        particle.position[direction >> 1] += direction & 1 ? 1 : -1;
 
         updateBounds(particle.position);
 

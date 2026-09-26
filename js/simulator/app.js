@@ -47,6 +47,19 @@ function getSpatialDimensions(graphMode) {
   }
 }
 
+function getNormalisedDirectionProbabilities(dimensions) {
+  const directionProbabilities = [
+    Number(document.querySelector("#p-positive-x").value),
+    Number(document.querySelector("#p-negative-x").value),
+    Number(document.querySelector("#p-positive-y").value),
+    Number(document.querySelector("#p-negative-y").value),
+    Number(document.querySelector("#p-positive-z").value),
+    Number(document.querySelector("#p-negative-z").value),
+  ].slice(0, dimensions * 2);
+  const total = directionProbabilities.reduce((sum, v) => sum + v, 0);
+  return directionProbabilities.map((v) => v / total);
+}
+
 function readParameters() {
   const processType = document.getElementById(`process-type`).value;
   const seed = Number(document.querySelector("#seed").value);
@@ -67,12 +80,16 @@ function readParameters() {
     Number(document.querySelector("#drift-z").value),
   ].slice(0, dimensions);
 
+  const directionProbabilities =
+    getNormalisedDirectionProbabilities(dimensions);
+
   return {
     processType,
     duration: Number(document.querySelector("#duration").value),
     dt: processType === `rw` ? 1 : Number(document.querySelector("#dt").value),
     diffusion,
     drift,
+    directionProbabilities,
     branchingRate:
       Number(document.querySelector("#branching-on").checked) *
       Number(document.querySelector("#branching-rate").value),
