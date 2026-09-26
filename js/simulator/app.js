@@ -720,18 +720,21 @@ function updateEnabled() {
   }
 }
 
-const processModeFields = document.querySelectorAll(
-  "[data-process][data-mode]",
+const processDimensionsFields = document.querySelectorAll(
+  "[data-process][data-dimensions]",
 );
 const processFields = document.querySelectorAll(
-  "[data-process]:not([data-mode])",
+  "[data-process]:not([data-dimensions])",
 );
-const modeFields = document.querySelectorAll("[data-mode]:not([data-process])");
+const dimensionsFields = document.querySelectorAll(
+  "[data-dimensions]:not([data-process])",
+);
 
 function updateInputs(type = "all") {
   const processType = document.getElementById(`process-type`).value;
-  const graphMode = document.getElementById(`graph-mode`).value;
-  const dimensions = graphMode.replaceAll(`t`, ``);
+  const dimensions = getSpatialDimensions(
+    document.getElementById(`graph-mode`).value,
+  );
 
   function update(fields, datasets) {
     for (const field of fields) {
@@ -740,14 +743,17 @@ function updateInputs(type = "all") {
         case "both":
           allowedParameters = [
             field.dataset.process.split(` `),
-            field.dataset.mode.split(` `),
+            field.dataset.dimensions.split(` `).map(Number),
           ];
           break;
         case "process":
           allowedParameters = [field.dataset.process.split(` `), [dimensions]];
           break;
-        case "mode":
-          allowedParameters = [[processType], field.dataset.mode.split(` `)];
+        case "dimensions":
+          allowedParameters = [
+            [processType],
+            field.dataset.dimensions.split(` `).map(Number),
+          ];
           break;
       }
 
@@ -766,18 +772,24 @@ function updateInputs(type = "all") {
   switch (type) {
     case "all":
       update(processFields, "process");
-      update(modeFields, "mode");
-      update(processModeFields, "both");
+      update(dimensionsFields, "dimensions");
+      update(processDimensionsFields, "both");
       return;
     case "process":
       update(processFields, "process");
-      update(processModeFields, "both");
+      update(processDimensionsFields, "both");
       return;
-    case "mode":
-      update(modeFields, "mode");
-      update(processModeFields, "both");
+    case "dimensions":
+      update(dimensionsFields, "dimensions");
+      update(processDimensionsFields, "both");
       return;
   }
+}
+
+function updateDirectionProbabilitiesPreview() {
+  const dimensions = getSpatialDimensions(
+    document.getElementById(`graph-mode`).value,
+  );
 }
 
 document
@@ -786,7 +798,7 @@ document
 
 document
   .getElementById(`graph-mode`)
-  .addEventListener(`change`, () => updateInputs("mode"));
+  .addEventListener(`change`, () => updateInputs("dimensions"));
 
 document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
   checkbox.addEventListener(`change`, updateEnabled);
