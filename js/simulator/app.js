@@ -55,29 +55,17 @@ function readParameters() {
   const graphMode = document.querySelector("#graph-mode").value;
   const dimensions = getSpatialDimensions(graphMode);
 
-  const diffusionX = Number(document.querySelector("#diffusion-x").value);
-  const diffusionY = Number(document.querySelector("#diffusion-y").value);
-  const diffusionZ = Number(document.querySelector("#diffusion-z").value);
+  const diffusion = [
+    Number(document.querySelector("#diffusion-x").value),
+    Number(document.querySelector("#diffusion-y").value),
+    Number(document.querySelector("#diffusion-z").value),
+  ].slice(0, dimensions);
 
-  const driftX = Number(document.querySelector("#drift-x").value);
-  const driftY = Number(document.querySelector("#drift-y").value);
-  const driftZ = Number(document.querySelector("#drift-z").value);
-
-  let diffusion, drift;
-  switch (dimensions) {
-    case 1:
-      diffusion = [diffusionX];
-      drift = [driftX];
-      break;
-    case 2:
-      diffusion = [diffusionX, diffusionY];
-      drift = [driftX, driftY];
-      break;
-    case 3:
-      diffusion = [diffusionX, diffusionY, diffusionZ];
-      drift = [driftX, driftY, driftZ];
-      break;
-  }
+  const drift = [
+    Number(document.querySelector("#drift-x").value),
+    Number(document.querySelector("#drift-y").value),
+    Number(document.querySelector("#drift-z").value),
+  ].slice(0, dimensions);
 
   return {
     processType,
