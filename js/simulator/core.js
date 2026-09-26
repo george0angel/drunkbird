@@ -54,15 +54,6 @@ function createUniformRandom(seed) {
   };
 }
 
-// Random Integer in range [0, range - 1]
-function createBoundedRandom(seed) {
-  const uniformRandom = createUniformRandom(seed);
-
-  return function nextBounded(range) {
-    return Math.floor(uniformRandom() * range);
-  };
-}
-
 function createNormalRandom(seed) {
   const uniformRandom = createUniformRandom(seed);
 
