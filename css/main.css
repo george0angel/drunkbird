@@ -321,6 +321,12 @@ dd {
   gap: 0.4em;
 }
 
+.dimensions-table span {
+  color: color-mix(in srgb, var(--main-darker-color) 40%, transparent);
+  font-style: italic;
+  font-weight: 600;
+}
+
 .dimensions-table :nth-child(1) {
   margin-left: 0.4em;
 }
