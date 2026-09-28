@@ -318,7 +318,7 @@ dd {
 .dimensions-table {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  column-gap: 0.4em;
 }
 
 .dimensions-table span {

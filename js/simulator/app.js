@@ -3,6 +3,9 @@
 const form = document.querySelector("#controls");
 const button = document.querySelector("#simulate-button");
 const status = document.querySelector("#status");
+const directionProbabilitiesPreview = document.querySelector(
+  "#direction-probabilities-preview",
+);
 
 const summary = {
   finalPopulation: document.querySelector("#final-population"),
@@ -476,43 +479,49 @@ async function draw(result) {
   await drawAnimated(result, graphMode, animationDuration);
 }
 
-function showSummary(result) {
-  function format(item) {
-    return item === null || item === undefined
-      ? "—"
-      : []
-          .concat(item)
-          .map((value) => parseFloat(value.toFixed(3)))
-          .join(", ");
-  }
+function formatNumber(item, sigFigs = 4) {
+  return item === null || item === undefined
+    ? "—"
+    : []
+        .concat(item)
+        .map((value) => Number(value.toPrecision(sigFigs)).toString())
+        .join(", ");
+}
 
-  summary.finalPopulation.textContent = format(result.summary.finalPopulation);
-  summary.particlesCreated.textContent = format(
+function showSummary(result) {
+  summary.finalPopulation.textContent = formatNumber(
+    result.summary.finalPopulation,
+  );
+  summary.particlesCreated.textContent = formatNumber(
     result.summary.totalParticlesCreated,
   );
-  summary.maximumGeneration.textContent = format(
+  summary.maximumGeneration.textContent = formatNumber(
     result.summary.maximumGeneration,
   );
-  summary.meanFinalPosition.textContent = format(
+  summary.meanFinalPosition.textContent = formatNumber(
     result.summary.meanFinalPosition,
   );
-  summary.minPosition.textContent = format(result.summary.minPosition);
-  summary.maxPosition.textContent = format(result.summary.maxPosition);
-  summary.minFinalPosition.textContent = format(
+  summary.minPosition.textContent = formatNumber(result.summary.minPosition);
+  summary.maxPosition.textContent = formatNumber(result.summary.maxPosition);
+  summary.minFinalPosition.textContent = formatNumber(
     result.summary.minFinalPosition,
   );
-  summary.maxFinalPosition.textContent = format(
+  summary.maxFinalPosition.textContent = formatNumber(
     result.summary.maxFinalPosition,
   );
 
-  summary.maxFinalDistance.textContent = format(
+  summary.maxFinalDistance.textContent = formatNumber(
     result.summary.maxFinalDistance,
   );
-  summary.maxDistance.textContent = format(result.summary.maxDistance);
-  summary.maxDistanceTime.textContent = format(result.summary.maxDistanceTime);
-  summary.firstBranchTime.textContent = format(result.summary.firstBranchTime);
-  summary.originVisits.textContent = format(result.summary.originVisits);
-  summary.proportionTimePositive.textContent = format(
+  summary.maxDistance.textContent = formatNumber(result.summary.maxDistance);
+  summary.maxDistanceTime.textContent = formatNumber(
+    result.summary.maxDistanceTime,
+  );
+  summary.firstBranchTime.textContent = formatNumber(
+    result.summary.firstBranchTime,
+  );
+  summary.originVisits.textContent = formatNumber(result.summary.originVisits);
+  summary.proportionTimePositive.textContent = formatNumber(
     result.summary.proportionTimePositive,
   );
   summary.summaryNote.textContent = result.summary.populationCapReached
@@ -774,6 +783,7 @@ function updateInputs(type = "all") {
       update(processFields, "process");
       update(dimensionsFields, "dimensions");
       update(processDimensionsFields, "both");
+      updateDirectionProbabilitiesPreview();
       return;
     case "process":
       update(processFields, "process");
@@ -782,6 +792,7 @@ function updateInputs(type = "all") {
     case "dimensions":
       update(dimensionsFields, "dimensions");
       update(processDimensionsFields, "both");
+      updateDirectionProbabilitiesPreview();
       return;
   }
 }
@@ -790,6 +801,36 @@ function updateDirectionProbabilitiesPreview() {
   const dimensions = getSpatialDimensions(
     document.getElementById(`graph-mode`).value,
   );
+  const directionProbabilities = getNormalisedDirectionProbabilities(
+    dimensions,
+  ).map((v) => formatNumber(v));
+
+  let dimensionsStringList = [];
+  if (dimensions === 1) {
+    dimensionsStringList = ["&nbsp;p="];
+  } else {
+    dimensionsStringList = ["x:&nbsp;p=", "y:&nbsp;p=", "z:&nbsp;p="].slice(
+      0,
+      dimensions,
+    );
+  }
+
+  let previewHTML = "";
+  for (let i = 0; i < dimensions; i++) {
+    previewHTML +=
+      "      <wbr><span&ensp;style='display:&ensp;contents;&ensp;white-space:&ensp;nowrap'>+" +
+      dimensionsStringList[i] +
+      directionProbabilities[i] +
+      "&nbsp;&nbsp;&nbsp;-" +
+      dimensionsStringList[i] +
+      directionProbabilities[i + 1] +
+      "</span>";
+  }
+  previewHTML = previewHTML
+    .trim()
+    .replaceAll(" ", "&nbsp;")
+    .replaceAll("&ensp;", " ");
+  directionProbabilitiesPreview.innerHTML = previewHTML;
 }
 
 document
@@ -804,5 +845,10 @@ document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
   checkbox.addEventListener(`change`, updateEnabled);
 });
 
+document
+  .getElementById(`direction-frequency-ratio`)
+  .addEventListener(`input`, () => updateDirectionProbabilitiesPreview());
+
 updateEnabled();
 updateInputs("all");
+updateDirectionProbabilitiesPreview();
