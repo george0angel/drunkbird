@@ -50,17 +50,42 @@ function getSpatialDimensions(graphMode) {
   }
 }
 
-function getNormalisedDirectionProbabilities(dimensions) {
-  const directionProbabilities = [
-    Number(document.querySelector("#p-positive-x").value),
-    Number(document.querySelector("#p-negative-x").value),
-    Number(document.querySelector("#p-positive-y").value),
-    Number(document.querySelector("#p-negative-y").value),
-    Number(document.querySelector("#p-positive-z").value),
-    Number(document.querySelector("#p-negative-z").value),
+function getNormalisedDirectionProbabilities(
+  dimensions,
+  checkValidity = false,
+) {
+  let valid = true;
+  const directionProbabilitiesInputs = [
+    document.querySelector("#p-positive-x"),
+    document.querySelector("#p-negative-x"),
+    document.querySelector("#p-positive-y"),
+    document.querySelector("#p-negative-y"),
+    document.querySelector("#p-positive-z"),
+    document.querySelector("#p-negative-z"),
   ].slice(0, dimensions * 2);
+
+  let directionProbabilities = [];
+  for (const input of directionProbabilitiesInputs) {
+    directionProbabilities.push(Number(input.value));
+    input.setCustomValidity("");
+    valid = valid && input.checkValidity();
+  }
+
   const total = directionProbabilities.reduce((sum, v) => sum + v, 0);
-  return directionProbabilities.map((v) => v / total);
+
+  directionProbabilities = directionProbabilities.map((v) => v / total);
+
+  if (checkValidity) {
+    if (total === 0 && dimensions !== 0) {
+      valid = false;
+      for (const input of directionProbabilitiesInputs) {
+        input.setCustomValidity("Step direction ratios cannot all be 0.");
+      }
+    }
+    return [directionProbabilities, valid];
+  } else {
+    return directionProbabilities;
+  }
 }
 
 function readParameters() {
@@ -798,38 +823,50 @@ function updateInputs(type = "all") {
 }
 
 function updateDirectionProbabilitiesPreview() {
-  const dimensions = getSpatialDimensions(
+  let dimensions = getSpatialDimensions(
     document.getElementById(`graph-mode`).value,
   );
-  const directionProbabilities = getNormalisedDirectionProbabilities(
-    dimensions,
-  ).map((v) => formatNumber(v));
-
-  let dimensionsStringList = [];
-  if (dimensions === 1) {
-    dimensionsStringList = ["&nbsp;p="];
-  } else {
-    dimensionsStringList = ["x:&nbsp;p=", "y:&nbsp;p=", "z:&nbsp;p="].slice(
-      0,
-      dimensions,
-    );
+  if (document.getElementById(`process-type`).value !== "rw") {
+    dimensions = 0;
   }
+  const result = getNormalisedDirectionProbabilities(dimensions, true);
 
   let previewHTML = "";
-  for (let i = 0; i < dimensions; i++) {
-    previewHTML +=
-      "      <wbr><span&ensp;style='display:&ensp;contents;&ensp;white-space:&ensp;nowrap'>+" +
-      dimensionsStringList[i] +
-      directionProbabilities[i] +
-      "&nbsp;&nbsp;&nbsp;-" +
-      dimensionsStringList[i] +
-      directionProbabilities[i + 1] +
-      "</span>";
+
+  if (result[1]) {
+    const directionProbabilities = result[0].map((v) => formatNumber(v));
+
+    let dimensionsStringList = [];
+    if (dimensions === 1) {
+      dimensionsStringList = ["&nbsp;p="];
+    } else {
+      dimensionsStringList = ["x:&nbsp;p=", "y:&nbsp;p=", "z:&nbsp;p="].slice(
+        0,
+        dimensions,
+      );
+    }
+
+    for (let i = 0; i < dimensions; i++) {
+      previewHTML +=
+        "      <wbr><span&ensp;style='display:&ensp;contents;&ensp;" +
+        "white-space:&ensp;nowrap'>+" +
+        dimensionsStringList[i] +
+        directionProbabilities[i] +
+        "&nbsp;&nbsp;&nbsp;-" +
+        dimensionsStringList[i] +
+        directionProbabilities[i + 1] +
+        "</span>";
+    }
+    previewHTML = previewHTML
+      .trim()
+      .replaceAll(" ", "&nbsp;")
+      .replaceAll("&ensp;", " ");
+  } else {
+    previewHTML =
+      "<span style='color: color-mix(in srgb, var(--main-regular-color) 70%," +
+      "transparent);'>INVALID INPUTS</span>";
   }
-  previewHTML = previewHTML
-    .trim()
-    .replaceAll(" ", "&nbsp;")
-    .replaceAll("&ensp;", " ");
+
   directionProbabilitiesPreview.innerHTML = previewHTML;
 }
 

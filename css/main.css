@@ -2,8 +2,10 @@
 @import "node-tikzjax/css/fonts.css";
 
 :root {
-  --main-darker-color: rgb(45, 20, 20);
-  --main-dark-color: rgb(65, 45, 45);
+  --main-darkest-color: rgb(45, 20, 20);
+  --main-darker-color: rgb(65, 45, 45);
+  --main-dark-color: rgb(120, 60, 60);
+  --main-regular-color: rgb(150, 70, 70);
   --main-light-color: rgb(180, 100, 100);
   --main-lighter-color: rgb(245, 210, 210);
   --main-lightest-color: rgb(250, 235, 235);
@@ -22,7 +24,7 @@ body {
   padding: 1em;
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  color: var(--main-darker-color);
+  color: var(--main-darkest-color);
   background: var(--main-background-color);
   display: flex;
   flex-direction: column;
@@ -96,9 +98,9 @@ header {
 
 footer {
   margin-top: 2em;
-  border-top: 1px solid var(--main-dark-color);
+  border-top: 1px solid var(--main-darker-color);
   border-radius: 0;
-  color: var(--main-dark-color);
+  color: var(--main-darker-color);
   font-size: small;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -131,7 +133,7 @@ footer {
   grid-column: 1 / -1;
   display: flex;
   width: 100%;
-  background: var(--main-dark-color);
+  background: var(--main-darker-color);
   overflow: visible;
   position: relative;
   z-index: 1;
@@ -178,9 +180,9 @@ footer {
   top: 100%;
   left: 0;
   min-width: 10em;
-  background: var(--main-dark-color);
+  background: var(--main-darker-color);
   box-shadow: 0 8px 16px
-    color-mix(in srgb, var(--main-darker-color) 25%, transparent);
+    color-mix(in srgb, var(--main-darkest-color) 25%, transparent);
   z-index: 1;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -240,12 +242,12 @@ h2 {
 
 form {
   padding: 1em;
-  border: 1px solid var(--main-dark-color);
+  border: 1px solid var(--main-darker-color);
   background-color: var(--main-lightest-color);
 }
 
 form input {
-  border: 1px solid var(--main-dark-color);
+  border: 1px solid var(--main-darker-color);
 }
 
 form input[type="number"] {
@@ -260,7 +262,7 @@ form select {
   margin-top: 2px;
   margin-bottom: 4px;
   padding: 6px;
-  border: 1px solid var(--main-dark-color);
+  border: 1px solid var(--main-darker-color);
   background-color: var(--main-lighter-color);
 }
 
@@ -268,7 +270,7 @@ form button {
   padding: 0.7em 0.8em;
   cursor: pointer;
   background-color: var(--main-lighter-color);
-  border: 1px solid var(--main-dark-color);
+  border: 1px solid var(--main-darker-color);
   font-size: 1em;
   width: 100%;
 }
@@ -286,7 +288,7 @@ form button:disabled {
   display: block;
   width: 100%;
   height: min(40em, calc(100cqi * 4 / 3));
-  border: 1px solid var(--main-dark-color);
+  border: 1px solid var(--main-darker-color);
   overflow: hidden;
   background: white;
 }
@@ -322,7 +324,7 @@ dd {
 }
 
 .dimensions-table span {
-  color: color-mix(in srgb, var(--main-darker-color) 40%, transparent);
+  color: color-mix(in srgb, var(--main-darkest-color) 40%, transparent);
   font-style: italic;
   font-weight: 600;
 }
@@ -343,7 +345,7 @@ dd {
   font-family: "Times New Roman", serif;
   font-size: 4rem;
   font-weight: normal;
-  color: var(--main-dark-color);
+  color: var(--main-darker-color);
   letter-spacing: 0rem;
   line-height: 2;
 }
