@@ -66,7 +66,7 @@ function getNormalisedDirectionProbabilities(
 
   let directionProbabilities = [];
   for (const input of directionProbabilitiesInputs) {
-    directionProbabilities.push(Number(input.value));
+    directionProbabilities.push(input.valueAsNumber);
     input.setCustomValidity("");
     valid = valid && input.checkValidity();
   }
@@ -90,22 +90,22 @@ function getNormalisedDirectionProbabilities(
 
 function readParameters() {
   const processType = document.getElementById(`process-type`).value;
-  const seed = Number(document.querySelector("#seed").value);
+  const seed = document.querySelector("#seed").valueAsNumber;
   const seedOn = document.querySelector("#seed-on").checked;
 
   const graphMode = document.querySelector("#graph-mode").value;
   const dimensions = getSpatialDimensions(graphMode);
 
   const diffusion = [
-    Number(document.querySelector("#diffusion-x").value),
-    Number(document.querySelector("#diffusion-y").value),
-    Number(document.querySelector("#diffusion-z").value),
+    document.querySelector("#diffusion-x").valueAsNumber,
+    document.querySelector("#diffusion-y").valueAsNumber,
+    document.querySelector("#diffusion-z").valueAsNumber,
   ].slice(0, dimensions);
 
   const drift = [
-    Number(document.querySelector("#drift-x").value),
-    Number(document.querySelector("#drift-y").value),
-    Number(document.querySelector("#drift-z").value),
+    document.querySelector("#drift-x").valueAsNumber,
+    document.querySelector("#drift-y").valueAsNumber,
+    document.querySelector("#drift-z").valueAsNumber,
   ].slice(0, dimensions);
 
   const directionProbabilities =
@@ -113,21 +113,20 @@ function readParameters() {
 
   return {
     processType,
-    duration: Number(document.querySelector("#duration").value),
-    dt: processType === `rw` ? 1 : Number(document.querySelector("#dt").value),
+    duration: document.querySelector("#duration").valueAsNumber,
+    dt: processType === `rw` ? 1 : document.querySelector("#dt").valueAsNumber,
     diffusion,
     drift,
     directionProbabilities,
     branchingRate:
       Number(document.querySelector("#branching-on").checked) *
-      Number(document.querySelector("#branching-rate").value),
-    initialParticles: Number(
-      document.querySelector("#initial-particles").value,
-    ),
+      document.querySelector("#branching-rate").valueAsNumber,
+    initialParticles:
+      document.querySelector("#initial-particles").valueAsNumber,
     maxParticles:
       Number(document.querySelector("#branching-on").checked) *
       Number(document.querySelector("#max-particles-on").checked) *
-      Number(document.querySelector("#max-particles").value),
+      document.querySelector("#max-particles").valueAsNumber,
     seed: seedOn === true ? seed : randomSeed(),
     startingPosition: Array(dimensions).fill(0),
   };
@@ -500,7 +499,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
 async function draw(result) {
   const graphMode = document.querySelector("#graph-mode").value;
   const animationDuration =
-    Number(document.querySelector("#animation").value) * 1000;
+    document.querySelector("#animation").valueAsNumber * 1000;
   await drawAnimated(result, graphMode, animationDuration);
 }
 
@@ -560,13 +559,12 @@ async function simulate(event) {
 
   const maxParticlesInput = document.querySelector("#max-particles");
 
-  const initialParticles = Number(
-    document.querySelector("#initial-particles").value,
-  );
-  const maxParticles = Number(maxParticlesInput.value);
+  const initialParticles =
+    document.querySelector("#initial-particles").valueAsNumber;
+  const maxParticles = maxParticlesInput.valueAsNumber;
   const maxParticlesOn =
-    Number(document.querySelector("#max-particles-on").checked) *
-    Number(document.querySelector("#branching-on").checked);
+    document.querySelector("#max-particles-on").checked &&
+    document.querySelector("#branching-on").checked;
 
   maxParticlesInput.setCustomValidity("");
 
@@ -894,6 +892,10 @@ document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
 document
   .getElementById(`direction-frequency-ratio`)
   .addEventListener(`input`, () => updateDirectionProbabilitiesPreview());
+
+document.querySelectorAll('input[type="number"]').forEach((input) => {
+  input.required = true;
+});
 
 updateInputs("all");
 updateDirectionProbabilitiesPreview();
