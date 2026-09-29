@@ -725,32 +725,39 @@ document.querySelectorAll('input[type="number"]').forEach((input) => {
 const inputFields = document.querySelectorAll(`input`);
 
 function updateEnabled() {
+  const branchingOn = document.getElementById("branching-on").checked;
+  const maxParticlesOn = document.getElementById("max-particles-on").checked;
+  const seedOn = document.getElementById("seed-on").checked;
+
   for (const field of inputFields) {
+    let disabled = false;
+
+    for (
+      let element = field;
+      element && element !== form;
+      element = element.parentElement
+    ) {
+      if (getComputedStyle(element).display === "none") {
+        disabled = true;
+      }
+    }
+
     switch (field.id) {
       case `branching-rate`:
-        document.getElementById(`branching-on`).checked
-          ? (field.disabled = false)
-          : (field.disabled = true);
-        if (document.getElementById(`branching-on`).checked) {
-          field.disabled = false;
-          document.getElementById(`max-particles-on`).disabled = false;
-        } else {
-          field.disabled = true;
-          document.getElementById(`max-particles-on`).disabled = true;
-        }
+        disabled ||= !branchingOn;
+        break;
+      case `max-particles-on`:
+        disabled ||= !branchingOn;
         break;
       case `max-particles`:
-        document.getElementById(`branching-on`).checked &&
-        document.getElementById(`max-particles-on`).checked
-          ? (field.disabled = false)
-          : (field.disabled = true);
+        disabled ||= !branchingOn || !maxParticlesOn;
         break;
       case `seed`:
-        document.getElementById(`seed-on`).checked
-          ? (field.disabled = false)
-          : (field.disabled = true);
+        disabled ||= !seedOn;
         break;
     }
+
+    field.disabled = disabled;
   }
 }
 
@@ -800,6 +807,8 @@ function updateInputs(type = "all") {
         field.style.display = "none";
       }
     }
+
+    updateEnabled();
     return;
   }
 
@@ -886,6 +895,5 @@ document
   .getElementById(`direction-frequency-ratio`)
   .addEventListener(`input`, () => updateDirectionProbabilitiesPreview());
 
-updateEnabled();
 updateInputs("all");
 updateDirectionProbabilitiesPreview();
