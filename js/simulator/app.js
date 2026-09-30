@@ -854,10 +854,10 @@ function updateDirectionProbabilitiesPreview() {
       previewHTML +=
         "      <wbr><span&ensp;style='display:&ensp;contents;&ensp;" +
         "white-space:&ensp;nowrap'>+" +
-        dimensionsStringList[2 * i] +
+        dimensionsStringList[i] +
         directionProbabilities[2 * i] +
         "&nbsp;&nbsp;&nbsp;-" +
-        dimensionsStringList[2 * i] +
+        dimensionsStringList[i] +
         directionProbabilities[2 * i + 1] +
         "</span>";
     }
