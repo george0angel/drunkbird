@@ -323,10 +323,16 @@ export function simulateProcess(payload) {
     });
   }
 
-  const steps = Math.floor(duration / dt);
+  let steps = Math.floor(duration / dt);
+  if (steps * dt !== duration) {
+    steps++;
+  }
 
   for (let step = 1; step <= steps; step += 1) {
-    const time = step * dt;
+    let time = step * dt;
+    if (step === steps) {
+      time = duration;
+    }
 
     if (processType === `rw`) {
       for (const particleId of activeIds) {
@@ -460,8 +466,7 @@ export function simulateProcess(payload) {
 
   const maxFinalDistance = Math.sqrt(maxSqDist);
 
-  const endTime = steps * dt;
-  let maxDistanceTime = endTime;
+  let maxDistanceTime = duration;
 
   let firstBranchTime = null;
 
