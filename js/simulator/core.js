@@ -333,7 +333,7 @@ export function simulateProcess(payload) {
         const particle = particles[particleId];
         const direction = weightedRandom();
 
-        particle.position[direction >> 1] += direction & 1 ? 1 : -1;
+        particle.position[direction >> 1] += direction & 1 ? -1 : 1;
 
         updateBounds(particle.position);
 
