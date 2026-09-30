@@ -847,21 +847,18 @@ function updateDirectionProbabilitiesPreview() {
     if (dimensions === 1) {
       dimensionsStringList = ["&nbsp;p="];
     } else {
-      dimensionsStringList = ["x:&nbsp;p=", "y:&nbsp;p=", "z:&nbsp;p="].slice(
-        0,
-        dimensions,
-      );
+      dimensionsStringList = ["x:&nbsp;p=", "y:&nbsp;p=", "z:&nbsp;p="];
     }
 
     for (let i = 0; i < dimensions; i++) {
       previewHTML +=
         "      <wbr><span&ensp;style='display:&ensp;contents;&ensp;" +
         "white-space:&ensp;nowrap'>+" +
-        dimensionsStringList[i] +
-        directionProbabilities[i] +
+        dimensionsStringList[2 * i] +
+        directionProbabilities[2 * i] +
         "&nbsp;&nbsp;&nbsp;-" +
-        dimensionsStringList[i] +
-        directionProbabilities[i + 1] +
+        dimensionsStringList[2 * i] +
+        directionProbabilities[2 * i + 1] +
         "</span>";
     }
     previewHTML = previewHTML
