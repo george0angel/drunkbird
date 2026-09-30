@@ -252,6 +252,96 @@
     </label>
   </div>
 
+  <div data-process="rw" style="display: none">
+    <div>
+      Starting position
+      <div class="dimensions-table">
+        <label data-dimensions="1 2 3" style="display: none">
+          <span data-dimensions="2 3" style="display: none">X</span>
+          <input
+            id="integer-starting-position-x"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="1"
+            value="0"
+          />
+        </label>
+
+        <label data-dimensions="2 3" style="display: none">
+          <span>Y</span>
+          <input
+            id="integer-starting-position-y"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="1"
+            value="0"
+          />
+        </label>
+
+        <label data-dimensions="3" style="display: none">
+          <span>Z</span>
+          <input
+            id="integer-starting-position-z"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="0.00000001"
+            step="1"
+            value="0"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div data-process="bm" style="display: none">
+    <div>
+      Starting position
+      <div class="dimensions-table">
+        <label data-dimensions="1 2 3" style="display: none">
+          <span data-dimensions="2 3" style="display: none">X</span>
+          <input
+            id="float-starting-position-x"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="0"
+          />
+        </label>
+
+        <label data-dimensions="2 3" style="display: none">
+          <span>Y</span>
+          <input
+            id="float-starting-position-y"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="0"
+          />
+        </label>
+
+        <label data-dimensions="3" style="display: none">
+          <span>Z</span>
+          <input
+            id="float-starting-position-z"
+            type="number"
+            min="-1000000000000"
+            max="1000000000000"
+            step="0.00000001"
+            data-jump="0.1"
+            value="0"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
+
   <h3 class="parameter-heading">Simulation Settings</h3>
 
   <div id="max-particles-input" data-process="bm rw" style="display: none">

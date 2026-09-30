@@ -111,6 +111,21 @@ function readParameters() {
   const directionProbabilities =
     getNormalisedDirectionProbabilities(dimensions);
 
+  let startingPosition;
+  if (processType === "rw") {
+    startingPosition = [
+      document.querySelector("#integer-starting-position-x").valueAsNumber,
+      document.querySelector("#integer-starting-position-y").valueAsNumber,
+      document.querySelector("#integer-starting-position-z").valueAsNumber,
+    ].slice(0, dimensions);
+  } else if (processType === "bm") {
+    startingPosition = [
+      document.querySelector("#float-starting-position-x").valueAsNumber,
+      document.querySelector("#float-starting-position-y").valueAsNumber,
+      document.querySelector("#float-starting-position-z").valueAsNumber,
+    ].slice(0, dimensions);
+  }
+
   return {
     processType,
     duration: document.querySelector("#duration").valueAsNumber,
@@ -128,7 +143,7 @@ function readParameters() {
       Number(document.querySelector("#max-particles-on").checked) *
       document.querySelector("#max-particles").valueAsNumber,
     seed: seedOn === true ? seed : randomSeed(),
-    startingPosition: Array(dimensions).fill(0),
+    startingPosition,
   };
 }
 
