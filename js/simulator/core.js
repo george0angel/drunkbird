@@ -124,6 +124,7 @@ function createParticle(
     branchTime: processType === `rw` ? Math.ceil(branchTime) : branchTime,
     integerValues: [Array(position.length).fill(0)],
     roots: [], // Index 0 for times in range [0,1] etc.
+    endMotion: null,
   };
 }
 
@@ -252,12 +253,33 @@ function brownianValue(particle, age) {
   );
 }
 
-function getParticlePosition(particle, time, diffusion, drift) {
+function getParticlePosition(
+  particle,
+  time,
+  diffusion,
+  drift,
+  endingPosition,
+  endTime,
+) {
   const age = time - particle.birthTime;
   const motion = brownianValue(particle, age);
 
+  if (endingPosition === null) {
+    return particle.birthPosition.map(
+      (start, i) => start + drift[i] * age + diffusion[i] * motion[i],
+    );
+  }
+
+  const endAge = endTime - particle.birthTime;
+  const alpha = age / endAge;
+
+  particle.endMotion ??= brownianValue(particle, endAge);
+
   return particle.birthPosition.map(
-    (start, i) => start + drift[i] * age + diffusion[i] * motion[i],
+    (start, i) =>
+      start +
+      alpha * (endingPosition[i] - start) +
+      diffusion[i] * (motion[i] - alpha * particle.endMotion[i]),
   );
 }
 
@@ -270,7 +292,7 @@ function updateBounds(position) {
 
 export function simulateProcess(payload) {
   const processType = payload.processType;
-  const duration = Number(payload.duration);
+  const endTime = Number(payload.endTime);
   const dt = processType === `rw` ? 1 : Number(payload.dt);
   const diffusion = payload.diffusion.map(Number);
   const drift = payload.drift.map(Number);
@@ -278,6 +300,8 @@ export function simulateProcess(payload) {
   const initialParticles = Number(payload.initialParticles);
   const maxParticles = Number(payload.maxParticles);
   const startingPosition = payload.startingPosition.map(Number);
+  const endingPosition =
+    payload.endingPosition === null ? null : payload.endingPosition.map(Number);
   const seed = Number(payload.seed);
   const directionProbabilities = payload.directionProbabilities.map(Number);
 
@@ -323,15 +347,15 @@ export function simulateProcess(payload) {
     });
   }
 
-  let steps = Math.floor(duration / dt);
-  if (steps * dt !== duration) {
+  let steps = Math.floor(endTime / dt);
+  if (steps * dt !== endTime) {
     steps++;
   }
 
   for (let step = 1; step <= steps; step += 1) {
     let time = step * dt;
     if (step === steps) {
-      time = duration;
+      time = endTime;
     }
 
     if (processType === `rw`) {
@@ -364,7 +388,14 @@ export function simulateProcess(payload) {
 
       const branchPosition =
         processType === `bm`
-          ? getParticlePosition(parent, branchTime, diffusion, drift)
+          ? getParticlePosition(
+              parent,
+              branchTime,
+              diffusion,
+              drift,
+              endingPosition,
+              endTime,
+            )
           : [...parent.position];
 
       parent.position = [...branchPosition];
@@ -409,6 +440,8 @@ export function simulateProcess(payload) {
           time,
           diffusion,
           drift,
+          endingPosition,
+          endTime,
         );
 
         updateBounds(particle.position);
@@ -466,7 +499,7 @@ export function simulateProcess(payload) {
 
   const maxFinalDistance = Math.sqrt(maxSqDist);
 
-  let maxDistanceTime = duration;
+  let maxDistanceTime = endTime;
 
   let firstBranchTime = null;
 
@@ -528,7 +561,7 @@ export function simulateProcess(payload) {
   return {
     parameters: {
       processType,
-      duration,
+      endTime,
       dt,
       diffusion,
       drift,
@@ -536,6 +569,8 @@ export function simulateProcess(payload) {
       initialParticles,
       maxParticles,
       seed,
+      startingPosition,
+      endingPosition,
     },
 
     particles: particles.map((particle, id) => ({

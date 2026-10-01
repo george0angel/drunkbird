@@ -111,7 +111,10 @@ function readParameters() {
   const directionProbabilities =
     getNormalisedDirectionProbabilities(dimensions);
 
+  const branchingOn = document.querySelector("#branching-on").checked;
+
   let startingPosition;
+  let endingPosition = null;
   if (processType === "rw") {
     startingPosition = [
       document.querySelector("#integer-starting-position-x").valueAsNumber,
@@ -124,17 +127,28 @@ function readParameters() {
       document.querySelector("#float-starting-position-y").valueAsNumber,
       document.querySelector("#float-starting-position-z").valueAsNumber,
     ].slice(0, dimensions);
+
+    const endingPositionOn = document.querySelector(
+      "#ending-position-on",
+    ).checked;
+    if (endingPositionOn && !branchingOn) {
+      endingPosition = [
+        document.querySelector("#ending-position-x").valueAsNumber,
+        document.querySelector("#ending-position-y").valueAsNumber,
+        document.querySelector("#ending-position-z").valueAsNumber,
+      ].slice(0, dimensions);
+    }
   }
 
   return {
     processType,
-    duration: document.querySelector("#duration").valueAsNumber,
+    endTime: document.querySelector("#duration").valueAsNumber,
     dt: processType === `rw` ? 1 : document.querySelector("#dt").valueAsNumber,
     diffusion,
     drift,
     directionProbabilities,
     branchingRate:
-      Number(document.querySelector("#branching-on").checked) *
+      Number(branchingOn) *
       document.querySelector("#branching-rate").valueAsNumber,
     initialParticles:
       document.querySelector("#initial-particles").valueAsNumber,
@@ -144,6 +158,7 @@ function readParameters() {
       document.querySelector("#max-particles").valueAsNumber,
     seed: seedOn === true ? seed : randomSeed(),
     startingPosition,
+    endingPosition,
   };
 }
 
@@ -741,6 +756,8 @@ function updateEnabled() {
   const branchingOn = document.getElementById("branching-on").checked;
   const maxParticlesOn = document.getElementById("max-particles-on").checked;
   const seedOn = document.getElementById("seed-on").checked;
+  const endingPositionOn =
+    document.getElementById("ending-position-on").checked;
 
   for (const field of inputFields) {
     let disabled = false;
@@ -767,6 +784,14 @@ function updateEnabled() {
         break;
       case `seed`:
         disabled ||= !seedOn;
+        break;
+      case `ending-position-on`:
+        disabled ||= branchingOn;
+        break;
+      case `ending-position-x`:
+      case `ending-position-y`:
+      case `ending-position-z`:
+        disabled ||= branchingOn || !endingPositionOn;
         break;
     }
 
