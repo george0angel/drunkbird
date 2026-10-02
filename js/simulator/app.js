@@ -272,6 +272,129 @@ async function lockCanvas(is2D, plot) {
   }
 }
 
+function reflectPath(path, reflectionAxes, startingPosition) {
+  return path.map(([time, position]) => [
+    time,
+    position.map((value, i) =>
+      reflectionAxes[i] ? 2 * startingPosition[i] - value : value,
+    ),
+  ]);
+}
+
+function rescalePath(path, rescaleFactor, startingPosition) {
+  return path.map(([time, position]) => [
+    time / rescaleFactor,
+    position.map(
+      (value, i) =>
+        startingPosition[i] +
+        (value - startingPosition[i]) / Math.sqrt(rescaleFactor),
+    ),
+  ]);
+}
+
+function reversePath(path) {
+  const [startTime, startPosition] = path[0];
+  const [endTime, endPosition] = path.at(-1);
+
+  return path
+    .map(([time, position]) => [
+      startTime + endTime - time,
+      position.map((value, i) => startPosition[i] + endPosition[i] - value),
+    ])
+    .reverse();
+}
+
+function getTraceStates(result) {
+  const processType = document.getElementById("process-type").value;
+  const branchingOn = document.querySelector("#branching-on").checked;
+
+  const reflectAxes = [
+    document.querySelector("#reflect-x").checked,
+    document.querySelector("#reflect-y").checked,
+    document.querySelector("#reflect-z").checked,
+  ].slice(0, result.dimensions);
+  const reflectOn = reflectAxes.includes(true) && processType === "bm";
+  const rescaleOn =
+    document.querySelector("#rescale-on").checked && processType === "bm";
+  const rescaleFactor = document.querySelector("#rescale-factor").valueAsNumber;
+
+  const reverseOn =
+    document.querySelector("#reverse-on").checked && !branchingOn;
+
+  const traceStates = result.particles.map((particle) => ({
+    particle,
+    name: reflectOn || rescaleOn || reverseOn ? "Original" : null,
+    dash: "solid",
+    nextIndex: 0,
+    x: [],
+    y: [],
+    z: [],
+  }));
+
+  const dashOptions = ["dash", "dot", "dashdot"];
+
+  if (reflectOn) {
+    traceStates.push(
+      ...result.particles.map((particle) => ({
+        particle: {
+          ...particle,
+          path: reflectPath(
+            particle.path,
+            reflectAxes,
+            result.parameters.startingPosition,
+          ),
+        },
+        name: "Reflection",
+        dash: dashOptions.splice(0, 0),
+        nextIndex: 0,
+        x: [],
+        y: [],
+        z: [],
+      })),
+    );
+  }
+
+  if (rescaleOn) {
+    traceStates.push(
+      ...result.particles.map((particle) => ({
+        particle: {
+          ...particle,
+          path: rescalePath(
+            particle.path,
+            rescaleFactor,
+            result.parameters.startingPosition,
+          ),
+        },
+        name: `Rescale c=${formatNumber(rescaleFactor)}`,
+        dash: dashOptions.splice(0, 0),
+        nextIndex: 0,
+        x: [],
+        y: [],
+        z: [],
+      })),
+    );
+  }
+
+  if (reverseOn) {
+    traceStates.push(
+      ...result.particles.map((particle) => ({
+        particle: {
+          ...particle,
+          path: reversePath(particle.path),
+        },
+        name: "Time reversal",
+        dash: dashOptions.splice(0, 0),
+        nextIndex: 0,
+        x: [],
+        y: [],
+        z: [],
+      })),
+    );
+  }
+
+  return traceStates;
+}
+
 async function drawAnimated(result, graphMode, animationDuration) {
   const frameCount = Math.min(
     (20 * animationDuration) / 1000 + 1,
@@ -285,14 +408,8 @@ async function drawAnimated(result, graphMode, animationDuration) {
       startTime + ((endTime - startTime) * index) / (frameCount - 1),
   );
 
-  const traceIds = result.particles.map((_, index) => index);
-  const traceStates = result.particles.map((particle) => ({
-    particle: particle,
-    nextIndex: 0,
-    x: [],
-    y: [],
-    z: [],
-  }));
+  const traceStates = getTraceStates(result);
+  const traceIds = traceStates.map((_, index) => index);
 
   // Set traces to last frame.
   for (const state of traceStates) {
@@ -300,17 +417,27 @@ async function drawAnimated(result, graphMode, animationDuration) {
   }
 
   const is2D = graphMode === "xt" || graphMode === "xy";
-  const traces = traceStates.map((state) => ({
-    type: is2D ? "scattergl" : "scatter3d",
-    mode: "lines",
-    x: state.x,
-    y: state.y,
-    ...(is2D ? {} : { z: state.z }),
-    line: {
-      width: is2D ? 1 : 2,
-    },
-    showlegend: false,
-  }));
+
+  const appliedLegends = new Set();
+  const traces = traceStates.map((state) => {
+    const showlegend = !appliedLegends.has(state.name);
+    appliedLegends.add(state.name);
+
+    return {
+      type: is2D ? "scattergl" : "scatter3d",
+      mode: "lines",
+      x: state.x,
+      y: state.y,
+      ...(is2D ? {} : { z: state.z }),
+      line: {
+        width: is2D ? 1 : 2,
+        dash: state.dash,
+      },
+      name: state.name,
+      legendgroup: state.name,
+      showlegend,
+    };
+  });
 
   const frameDuration = animationDuration / Math.max(times.length - 1, 1);
 
@@ -383,6 +510,16 @@ async function drawAnimated(result, graphMode, animationDuration) {
         zerolinecolor: zerolinecolor2D,
       },
 
+      legend: {
+        orientation: "h",
+        yanchor: "bottom",
+        y: 1,
+        xanchor: "left",
+        x: 0,
+      },
+
+      showlegend: appliedLegends.size > 1 ? null : false,
+
       margin: {
         l: 0,
         r: 0,
@@ -409,6 +546,16 @@ async function drawAnimated(result, graphMode, animationDuration) {
 
         aspectmode: "data",
       },
+
+      legend: {
+        orientation: "h",
+        yanchor: "bottom",
+        y: 1,
+        xanchor: "left",
+        x: 0,
+      },
+
+      showlegend: appliedLegends.size > 1 ? null : false,
 
       margin: {
         l: 0,
@@ -792,6 +939,9 @@ function updateEnabled() {
       case `ending-position-y`:
       case `ending-position-z`:
         disabled ||= branchingOn || !endingPositionOn;
+        break;
+      case `reverse-on`:
+        disabled ||= branchingOn;
         break;
     }
 

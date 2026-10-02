@@ -323,7 +323,8 @@ dd {
   column-gap: 0.4em;
 }
 
-.dimensions-table span {
+.dimensions-table span,
+.dimensions-label {
   color: color-mix(in srgb, var(--main-darkest-color) 40%, transparent);
   font-style: italic;
   font-weight: 600;

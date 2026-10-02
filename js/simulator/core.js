@@ -602,6 +602,7 @@ export function simulateProcess(payload) {
       populationCapReached:
         maxParticles !== 0 && activeIds.size >= maxParticles,
       steps,
+      dimensions,
     },
   };
 }

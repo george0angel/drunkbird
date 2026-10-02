@@ -396,6 +396,75 @@
     </label>
   </div>
 
+  <h3 class="parameter-heading">Transformations</h3>
+
+  <div data-process="bm" style="display: none">
+    <div>
+      Reflection
+      <br />
+      <div style="display: flex; flex-wrap: wrap; column-gap: 1em">
+        <label data-dimensions="1 2 3" style="display: none">
+          <span style="white-space: nowrap">
+            <span
+              class="dimensions-label"
+              data-dimensions="2 3"
+              style="display: none"
+              >X&nbsp;</span
+            >
+            <span style="font-size: small">Enabled?</span
+            ><input id="reflect-x" type="checkbox" unchecked />
+          </span>
+        </label>
+
+        <label data-dimensions="2 3" style="display: none">
+          <span style="white-space: nowrap">
+            <span class="dimensions-label">Y&nbsp;</span>
+            <span class="plain" style="font-size: small">Enabled?</span
+            ><input id="reflect-y" type="checkbox" unchecked />
+          </span>
+        </label>
+
+        <label data-dimensions="3" style="display: none; white-space: nowrap">
+          <span style="white-space: nowrap">
+            <span class="dimensions-label">Z&nbsp;</span>
+            <span class="plain" style="font-size: small">Enabled?</span
+            ><input id="reflect-z" type="checkbox" unchecked />
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div data-process="bm" style="display: none">
+    <label>
+      Rescale
+      <input
+        id="rescale-factor"
+        type="number"
+        min="0"
+        max="1000000000000"
+        step="0.00000001"
+        data-jump="0.1"
+        value="2"
+      />
+    </label>
+    <label>
+      <span style="font-size: small">Enabled?</span
+      ><input id="rescale-on" type="checkbox" unchecked />
+      <br />
+    </label>
+  </div>
+
+  <div data-process="bm rw" style="display: none">
+    <label>Reverse</label>
+    <br />
+    <label
+      ><span style="font-size: small">Enabled?</span
+      ><input id="reverse-on" type="checkbox" unchecked />
+      <br />
+    </label>
+  </div>
+
   <h3 class="parameter-heading">Simulation Settings</h3>
 
   <div id="max-particles-input" data-process="bm rw" style="display: none">
