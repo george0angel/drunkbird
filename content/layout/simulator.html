@@ -1,6 +1,6 @@
 <form id="controls">
   <div data-process="bm rw" style="display: none">
-    <label>Graph mode</label>
+    <label for="graph-mode">Graph mode</label>
     <select id="graph-mode">
       <option value="xt">X (with time axis)</option>
       <option value="xy">X, Y (without time axis)</option>
@@ -10,7 +10,7 @@
   </div>
 
   <div data-process="bm rw" style="display: none">
-    <label>Duration</label>
+    <label for="duration">Duration</label>
     <input
       id="duration"
       type="number"
@@ -23,187 +23,187 @@
 
   <h3 class="parameter-heading">Parameters</h3>
 
-  <div data-process="bm" style="display: none">
-    <div>
-      <label>Diffusion</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X</span>
-          <input
-            id="diffusion-x"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
+  <fieldset data-process="bm" style="display: none">
+    <legend data-dimensions="2 3">Diffusion</legend>
+    <label data-dimensions="1" for="diffusion-x">Diffusion</label>
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X</span>
+        <input
+          id="diffusion-x"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span>Y</span>
-          <input
-            id="diffusion-y"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
+      <label data-dimensions="2 3">
+        <span>Y</span>
+        <input
+          id="diffusion-y"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span>Z</span>
-          <input
-            id="diffusion-z"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span>Z</span>
+        <input
+          id="diffusion-z"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
     </div>
-  </div>
+  </fieldset>
 
-  <div data-process="bm" style="display: none">
-    <div>
-      <label>Drift</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X</span>
-          <input
-            id="drift-x"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
+  <fieldset data-process="bm" style="display: none">
+    <legend data-dimensions="2 3">Drift</legend>
+    <label data-dimensions="1" for="drift-x">Drift</label>
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X</span>
+        <input
+          id="drift-x"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span>Y</span>
-          <input
-            id="drift-y"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
+      <label data-dimensions="2 3">
+        <span>Y</span>
+        <input
+          id="drift-y"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span>Z</span>
-          <input
-            id="drift-z"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span>Z</span>
+        <input
+          id="drift-z"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
     </div>
-  </div>
+  </fieldset>
 
-  <div id="direction-frequency-ratio" data-process="rw" style="display: none">
-    <div>
-      <label>Step direction frequency ratio</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X&nbsp;&nbsp;</span
-          ><span style="font-weight: normal">+</span>
-          <input
-            id="p-positive-x"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
+  <fieldset
+    id="direction-frequency-ratio"
+    data-process="rw"
+    style="display: none"
+  >
+    <legend>Step direction frequency ratio</legend>
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X&nbsp;&nbsp;</span
+        ><span style="font-weight: normal">+</span>
+        <input
+          id="p-positive-x"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
 
-        <label data-dimensions="1 2 3" style="display: none">
-          <span style="font-weight: normal">-</span>
-          <input
-            id="p-negative-x"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
-      </div>
+      <label data-dimensions="1 2 3">
+        <span style="font-weight: normal">-</span>
+        <input
+          id="p-negative-x"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
+    </div>
 
-      <div class="dimensions-table">
-        <label data-dimensions="2 3" style="display: none">
-          <span style="display: contents">Y&nbsp;&nbsp;</span
-          ><span style="font-weight: normal">+</span>
-          <input
-            id="p-positive-y"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
+    <div class="dimensions-table">
+      <label data-dimensions="2 3">
+        <span style="display: contents">Y&nbsp;&nbsp;</span
+        ><span style="font-weight: normal">+</span>
+        <input
+          id="p-positive-y"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span style="font-weight: normal">-</span>
-          <input
-            id="p-negative-y"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
-      </div>
+      <label data-dimensions="2 3">
+        <span style="font-weight: normal">-</span>
+        <input
+          id="p-negative-y"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
+    </div>
 
-      <div class="dimensions-table">
-        <label data-dimensions="3" style="display: none">
-          <span style="display: contents">Z&nbsp;&nbsp;</span
-          ><span style="font-weight: normal">+</span>
-          <input
-            id="p-positive-z"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
+    <div class="dimensions-table">
+      <label data-dimensions="3">
+        <span style="display: contents">Z&nbsp;&nbsp;</span
+        ><span style="font-weight: normal">+</span>
+        <input
+          id="p-positive-z"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span style="font-weight: normal">-</span>
-          <input
-            id="p-negative-z"
-            type="number"
-            min="0"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="1"
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span style="font-weight: normal">-</span>
+        <input
+          id="p-negative-z"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="1"
+        />
+      </label>
     </div>
     <label class="dimensions-table" style="font-size: small; flex-wrap: wrap"
       >Resulting&nbsp;probabilities:
@@ -212,10 +212,10 @@
         style="margin-left: 0; white-space: prewrap"
       ></span
     ></label>
-  </div>
+  </fieldset>
 
   <div data-process="bm rw" style="display: none">
-    <label>Branching rate</label>
+    <label for="branching-rate">Branching rate</label>
     <input
       id="branching-rate"
       type="number"
@@ -233,7 +233,7 @@
   </div>
 
   <div data-process="bm rw" style="display: none">
-    <label>Initial particles</label>
+    <label for="initial-particles">Initial particles</label>
     <input
       id="initial-particles"
       type="number"
@@ -244,191 +244,186 @@
     />
   </div>
 
-  <div data-process="rw" style="display: none">
-    <div>
-      <label>Starting position</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X</span>
-          <input
-            id="integer-starting-position-x"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="1"
-            value="0"
-          />
-        </label>
+  <fieldset data-process="rw" style="display: none">
+    <legend data-dimensions="2 3">Starting position</legend>
+    <label data-dimensions="1" for="integer-starting-position-x"
+      >Starting position</label
+    >
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X</span>
+        <input
+          id="integer-starting-position-x"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span>Y</span>
-          <input
-            id="integer-starting-position-y"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="1"
-            value="0"
-          />
-        </label>
+      <label data-dimensions="2 3">
+        <span>Y</span>
+        <input
+          id="integer-starting-position-y"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span>Z</span>
-          <input
-            id="integer-starting-position-z"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            step="1"
-            value="0"
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span>Z</span>
+        <input
+          id="integer-starting-position-z"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          step="1"
+          value="0"
+        />
+      </label>
     </div>
-  </div>
+  </fieldset>
 
-  <div data-process="bm" style="display: none">
-    <div>
-      <label>Starting position</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X</span>
-          <input
-            id="float-starting-position-x"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
+  <fieldset data-process="bm" style="display: none">
+    <legend data-dimensions="2 3">Starting position</legend>
+    <label data-dimensions="1" for="float-starting-position-x"
+      >Starting position</label
+    >
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X</span>
+        <input
+          id="float-starting-position-x"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span>Y</span>
-          <input
-            id="float-starting-position-y"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
+      <label data-dimensions="2 3">
+        <span>Y</span>
+        <input
+          id="float-starting-position-y"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span>Z</span>
-          <input
-            id="float-starting-position-z"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span>Z</span>
+        <input
+          id="float-starting-position-z"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+        />
+      </label>
     </div>
-  </div>
+  </fieldset>
 
-  <div data-process="bm" style="display: none">
-    <div>
-      <label>Ending position</label>
-      <div class="dimensions-table">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span data-dimensions="2 3" style="display: none">X</span>
-          <input
-            id="ending-position-x"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-            disabled
-          />
-        </label>
+  <fieldset data-process="bm" style="display: none">
+    <legend data-dimensions="2 3">Ending position</legend>
+    <label data-dimensions="1" for="ending-position-x">Ending position</label>
+    <div class="dimensions-table">
+      <label data-dimensions="1 2 3">
+        <span data-dimensions="2 3">X</span>
+        <input
+          id="ending-position-x"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+          disabled
+        />
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span>Y</span>
-          <input
-            id="ending-position-y"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-            disabled
-          />
-        </label>
+      <label data-dimensions="2 3">
+        <span>Y</span>
+        <input
+          id="ending-position-y"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+          disabled
+        />
+      </label>
 
-        <label data-dimensions="3" style="display: none">
-          <span>Z</span>
-          <input
-            id="ending-position-z"
-            type="number"
-            min="-1000000000000"
-            max="1000000000000"
-            step="0.00000001"
-            data-jump="0.1"
-            value="0"
-            disabled
-          />
-        </label>
-      </div>
+      <label data-dimensions="3">
+        <span>Z</span>
+        <input
+          id="ending-position-z"
+          type="number"
+          min="-1000000000000"
+          max="1000000000000"
+          step="0.00000001"
+          data-jump="0.1"
+          value="0"
+          disabled
+        />
+      </label>
     </div>
     <label>
       <span style="font-size: small">Enabled?</span
       ><input id="ending-position-on" type="checkbox" unchecked />
       <br />
     </label>
-  </div>
+  </fieldset>
 
   <h3 class="parameter-heading">Transformations</h3>
 
-  <div data-process="bm" style="display: none">
-    <div>
-      <label>Reflection</label>
-      <br />
-      <div style="display: flex; flex-wrap: wrap; column-gap: 1em">
-        <label data-dimensions="1 2 3" style="display: none">
-          <span style="white-space: nowrap">
-            <span
-              class="dimensions-label"
-              data-dimensions="2 3"
-              style="display: none"
-              >X&nbsp;</span
-            >
-            <span style="font-size: small">Enabled?</span
-            ><input id="reflect-x" type="checkbox" unchecked />
-          </span>
-        </label>
+  <fieldset data-process="bm" style="display: none">
+    <legend data-dimensions="2 3">Reflection</legend>
+    <label data-dimensions="1" for="reflect-x">Reflection</label>
+    <br />
+    <div style="display: flex; flex-wrap: wrap; column-gap: 1em">
+      <label data-dimensions="1 2 3">
+        <span style="white-space: nowrap">
+          <span class="dimensions-label" data-dimensions="2 3">X&nbsp;</span>
+          <span style="font-size: small">Enabled?</span
+          ><input id="reflect-x" type="checkbox" unchecked />
+        </span>
+      </label>
 
-        <label data-dimensions="2 3" style="display: none">
-          <span style="white-space: nowrap">
-            <span class="dimensions-label">Y&nbsp;</span>
-            <span class="plain" style="font-size: small">Enabled?</span
-            ><input id="reflect-y" type="checkbox" unchecked />
-          </span>
-        </label>
+      <label data-dimensions="2 3">
+        <span style="white-space: nowrap">
+          <span class="dimensions-label">Y&nbsp;</span>
+          <span class="plain" style="font-size: small">Enabled?</span
+          ><input id="reflect-y" type="checkbox" unchecked />
+        </span>
+      </label>
 
-        <label data-dimensions="3" style="display: none; white-space: nowrap">
-          <span style="white-space: nowrap">
-            <span class="dimensions-label">Z&nbsp;</span>
-            <span class="plain" style="font-size: small">Enabled?</span
-            ><input id="reflect-z" type="checkbox" unchecked />
-          </span>
-        </label>
-      </div>
+      <label data-dimensions="3" style="white-space: nowrap">
+        <span style="white-space: nowrap">
+          <span class="dimensions-label">Z&nbsp;</span>
+          <span class="plain" style="font-size: small">Enabled?</span
+          ><input id="reflect-z" type="checkbox" unchecked />
+        </span>
+      </label>
     </div>
-  </div>
+  </fieldset>
 
   <div data-process="bm" style="display: none">
-    <label>Rescale</label>
+    <label for="rescale-factor">Rescale</label>
     <input
       id="rescale-factor"
       type="number"
@@ -446,7 +441,7 @@
   </div>
 
   <div data-process="bm rw" style="display: none">
-    <label>Reverse</label>
+    <label for="reverse-on">Reverse</label>
     <br />
     <label
       ><span style="font-size: small">Enabled?</span
@@ -456,7 +451,7 @@
   </div>
 
   <div data-process="bm" style="display: none">
-    <label>Invert</label>
+    <label for="invert-on">Invert</label>
     <br />
     <label
       ><span style="font-size: small">Enabled?</span
@@ -467,8 +462,8 @@
 
   <h3 class="parameter-heading">Simulation Settings</h3>
 
-  <div id="max-particles-input" data-process="bm rw" style="display: none">
-    <label>Population cap</label>
+  <div data-process="bm rw" style="display: none">
+    <label for="max-particles">Population cap</label>
     <input
       id="max-particles"
       type="number"
@@ -485,7 +480,7 @@
   </div>
 
   <div data-process="bm" style="display: none">
-    <label>Time step</label>
+    <label for="dt">Time step</label>
     <input
       id="dt"
       type="number"
@@ -498,7 +493,7 @@
   </div>
 
   <div data-process="bm rw" style="display: none">
-    <label>Seed</label>
+    <label for="seed">Seed</label>
     <input id="seed" type="number" value="0" min="0" max="4294967295" />
     <label
       ><span style="font-size: small">Enabled?</span
@@ -508,7 +503,7 @@
   </div>
 
   <div data-process="bm rw" style="display: none">
-    <label>Animation duration</label>
+    <label for="animation">Animation duration</label>
     <input
       id="animation"
       type="number"
