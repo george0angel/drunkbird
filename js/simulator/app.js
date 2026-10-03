@@ -346,9 +346,9 @@ function getTraceStates(result) {
     z: [],
   }));
 
-  const dashOptions = ["dash", "dot", "dashdot", "longdash", "longdashdot"];
   const graphMode = document.querySelector("#graph-mode").value;
   const is2D = graphMode === "xt" || graphMode === "xy";
+  const dashOptions = ["dot", "dash", "longdash", "dashdot", "longdashdot"];
 
   if (reflectOn) {
     const dash = is2D ? dashOptions.shift() : "solid";
