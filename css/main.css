@@ -317,6 +317,11 @@ dd {
   }
 }
 
+form label:has(input:disabled),
+form label:has(select:disabled) {
+  opacity: 0.6;
+}
+
 .dimensions-table {
   display: flex;
   align-items: center;
