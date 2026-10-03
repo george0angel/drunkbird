@@ -347,9 +347,11 @@ function getTraceStates(result) {
   }));
 
   const dashOptions = ["dash", "dot", "dashdot", "longdash", "longdashdot"];
+  const graphMode = document.querySelector("#graph-mode").value;
+  const is2D = graphMode === "xt" || graphMode === "xy";
 
   if (reflectOn) {
-    const dash = dashOptions.shift();
+    const dash = is2D ? dashOptions.shift() : "solid";
 
     traceStates.push(
       ...result.particles.map((particle) => ({
@@ -372,7 +374,7 @@ function getTraceStates(result) {
   }
 
   if (rescaleOn) {
-    const dash = dashOptions.shift();
+    const dash = is2D ? dashOptions.shift() : "solid";
 
     traceStates.push(
       ...result.particles.map((particle) => ({
@@ -395,7 +397,7 @@ function getTraceStates(result) {
   }
 
   if (reverseOn) {
-    const dash = dashOptions.shift();
+    const dash = is2D ? dashOptions.shift() : "solid";
 
     traceStates.push(
       ...result.particles.map((particle) => ({
@@ -414,7 +416,7 @@ function getTraceStates(result) {
   }
 
   if (invertOn) {
-    const dash = dashOptions.shift();
+    const dash = is2D ? dashOptions.shift() : "solid";
 
     traceStates.push(
       ...result.particles.map((particle) => ({
