@@ -349,6 +349,8 @@ function getTraceStates(result) {
   const dashOptions = ["dash", "dot", "dashdot", "longdash", "longdashdot"];
 
   if (reflectOn) {
+    const dash = dashOptions.shift();
+
     traceStates.push(
       ...result.particles.map((particle) => ({
         particle: {
@@ -360,7 +362,7 @@ function getTraceStates(result) {
           ),
         },
         name: "Reflection",
-        dash: dashOptions.shift(),
+        dash,
         nextIndex: 0,
         x: [],
         y: [],
@@ -370,6 +372,8 @@ function getTraceStates(result) {
   }
 
   if (rescaleOn) {
+    const dash = dashOptions.shift();
+
     traceStates.push(
       ...result.particles.map((particle) => ({
         particle: {
@@ -381,7 +385,7 @@ function getTraceStates(result) {
           ),
         },
         name: `Rescale c=${formatNumber(rescaleFactor)}`,
-        dash: dashOptions.shift(),
+        dash,
         nextIndex: 0,
         x: [],
         y: [],
@@ -391,6 +395,8 @@ function getTraceStates(result) {
   }
 
   if (reverseOn) {
+    const dash = dashOptions.shift();
+
     traceStates.push(
       ...result.particles.map((particle) => ({
         particle: {
@@ -398,7 +404,7 @@ function getTraceStates(result) {
           path: reversePath(particle.path),
         },
         name: "Time reversal",
-        dash: dashOptions.shift(),
+        dash,
         nextIndex: 0,
         x: [],
         y: [],
@@ -408,6 +414,8 @@ function getTraceStates(result) {
   }
 
   if (invertOn) {
+    const dash = dashOptions.shift();
+
     traceStates.push(
       ...result.particles.map((particle) => ({
         particle: {
@@ -415,7 +423,7 @@ function getTraceStates(result) {
           path: invertPath(particle.path, result.parameters.startingPosition),
         },
         name: "Time inversion",
-        dash: dashOptions.shift(),
+        dash,
         nextIndex: 0,
         x: [],
         y: [],
