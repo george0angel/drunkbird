@@ -304,6 +304,18 @@ function reversePath(path) {
     .reverse();
 }
 
+function invertPath(path, startingPosition) {
+  return path
+    .map(([time, position]) => [
+      1 / time,
+      position.map(
+        (value, i) =>
+          startingPosition[i] + (value - startingPosition[i]) / time,
+      ),
+    ])
+    .reverse();
+}
+
 function getTraceStates(result) {
   const processType = document.getElementById("process-type").value;
   const branchingOn = document.querySelector("#branching-on").checked;
@@ -321,9 +333,12 @@ function getTraceStates(result) {
   const reverseOn =
     document.querySelector("#reverse-on").checked && !branchingOn;
 
+  const invertOn =
+    document.querySelector("#invert-on").checked && processType === "bm";
+
   const traceStates = result.particles.map((particle) => ({
     particle,
-    name: reflectOn || rescaleOn || reverseOn ? "Original" : null,
+    name: reflectOn || rescaleOn || reverseOn || invertOn ? "Original" : null,
     dash: "solid",
     nextIndex: 0,
     x: [],
@@ -331,7 +346,7 @@ function getTraceStates(result) {
     z: [],
   }));
 
-  const dashOptions = ["dash", "dot", "dashdot"];
+  const dashOptions = ["dash", "dot", "dashdot", "longdash", "longdashdot"];
 
   if (reflectOn) {
     traceStates.push(
@@ -383,6 +398,23 @@ function getTraceStates(result) {
           path: reversePath(particle.path),
         },
         name: "Time reversal",
+        dash: dashOptions.splice(0, 0),
+        nextIndex: 0,
+        x: [],
+        y: [],
+        z: [],
+      })),
+    );
+  }
+
+  if (invertOn) {
+    traceStates.push(
+      ...result.particles.map((particle) => ({
+        particle: {
+          ...particle,
+          path: invertPath(particle.path, result.parameters.startingPosition),
+        },
+        name: "Time inversion",
         dash: dashOptions.splice(0, 0),
         nextIndex: 0,
         x: [],
