@@ -24,6 +24,7 @@ body {
   padding: 1em;
   font-family: Arial, sans-serif;
   line-height: 1.5;
+  stroke-width: 1.5px;
   color: var(--main-darkest-color);
   background: var(--main-background-color);
   display: flex;
@@ -63,7 +64,6 @@ header {
 }
 
 .header-image::after {
-  content: "";
   position: absolute;
   width: 100%;
   height: 100%;
@@ -137,13 +137,14 @@ footer {
   overflow: visible;
   position: relative;
   z-index: 1;
+  stroke-width: 1.7px;
 }
 
 .navbar > a,
 .dropdown > summary {
   display: block;
   padding: 0.7em 0.8em;
-  color: white;
+  color: var(--main-background-color);
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -161,12 +162,27 @@ footer {
   display: none;
 }
 
-.dropdown > summary::after {
-  content: "\00a0\25BE";
+.dropdown-closed,
+.dropdown-open {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
 }
 
-.dropdown[open] > summary::after {
-  content: "\00a0\25B4";
+.dropdown > summary .dropdown-closed {
+  display: inline-block;
+}
+
+.dropdown > summary .dropdown-open {
+  display: none;
+}
+
+.dropdown[open] > summary .dropdown-closed {
+  display: none;
+}
+
+.dropdown[open] > summary .dropdown-open {
+  display: inline-block;
 }
 
 .navbar > a:hover,
@@ -487,9 +503,6 @@ details.md-content-box > :last-child {
 details.md-content-box > summary {
   cursor: pointer;
   margin-bottom: 0.75em;
-}
-
-details.md-content-box > summary {
   list-style: none;
 }
 
@@ -497,13 +510,29 @@ details.md-content-box > summary::-webkit-details-marker {
   display: none;
 }
 
-details.md-content-box > summary::before {
-  content: "\25B6\2060";
+.details-closed,
+.details-open {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  margin-inline-start: -0.1em;
+  stroke-width: 3px;
 }
 
-details.md-content-box[open] > summary::before {
-  content: "\25BC\2060";
-  margin-inline-start: -0.13em;
+details.md-content-box > summary .details-closed {
+  display: inline-block;
+}
+
+details.md-content-box > summary .details-open {
+  display: none;
+}
+
+details.md-content-box[open] > summary .details-closed {
+  display: none;
+}
+
+details.md-content-box[open] > summary .details-open {
+  display: inline-block;
 }
 
 /* Definition / Key Point / Summary */

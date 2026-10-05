@@ -74,6 +74,20 @@ export function layoutPlugin() {
           markdownContent.innerHTML = await renderMarkdown(markdown);
         }
 
+        document.querySelectorAll(".dropdown > summary").forEach((summary) => {
+          const text = summary.textContent.trim();
+          const lastSpace = text.lastIndexOf(" ");
+
+          const start = lastSpace === -1 ? "" : text.slice(0, lastSpace + 1);
+          const end =
+            lastSpace === -1 ? text : text.slice(lastSpace + 1) + "&thinsp;";
+          summary.innerHTML =
+            `${start}<span style='white-space: nowrap;'>${end}` +
+            "<i data-lucide='chevron-down' class='dropdown-closed'></i>" +
+            "<i data-lucide='chevron-up' class='dropdown-open'></i>" +
+            "</span>";
+        });
+
         document.querySelectorAll("a[href], area[href]").forEach((link) => {
           const href = link.getAttribute("href");
           if (href.startsWith("/") && !href.startsWith("//")) {

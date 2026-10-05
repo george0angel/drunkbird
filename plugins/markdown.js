@@ -64,12 +64,15 @@ function addBox(name, label) {
         );
 
         if (collapsible) {
-          return `
-            <details class="md-content-box md-content-box--${name}"${open ? " open" : ""}>
-              <summary class="md-content-box__title">
-                ${heading}
-              </summary>
-          `;
+          return (
+            `<details class="md-content-box md-content-box--${name}"` +
+            `${open ? " open" : ""}>` +
+            `<summary class="md-content-box__title">` +
+            `<span style="white-space: nowrap;">` +
+            `<i data-lucide="chevrons-right" class="details-closed"></i>` +
+            `<i data-lucide="chevrons-down" class="details-open"></i>` +
+            `</span>&nbsp;${heading}</summary>`
+          );
         }
 
         return `
