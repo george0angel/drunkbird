@@ -8,7 +8,7 @@ Suppose you start at position $0$. You toss a fair coin. If you tossed heads, mo
 
 **Coming soon: figures of the above random walk**
 
-We can fomulate this mathematically as follows.
+We can formulate this mathematically as follows.
 
 ::: def Simple Symmetric Random Walk
 Let $\curly{X_i}_{i\in \mathbb{N}}$ be a collection of i.i.d. random variables where $\prob{X_1=+1}=\prob{X_1=-1}=1/2$. Then define
