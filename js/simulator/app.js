@@ -1,5 +1,7 @@
 /* global Plotly */
 
+import { createIcons, Play, Pause } from "lucide";
+
 const form = document.querySelector("#controls");
 const button = document.querySelector("#simulate-button");
 const status = document.querySelector("#status");
@@ -437,6 +439,43 @@ function getTraceStates(result) {
   return traceStates;
 }
 
+function setPlayButtonIcon(plot, playing) {
+  const button = plot.querySelector(".updatemenu-button");
+  const rect = button.querySelector("rect");
+
+  button.querySelector("text").style.display = "none";
+  button.querySelector(".play-button-icon")?.remove();
+
+  const container = document.createElement("div");
+  container.innerHTML = `<i data-lucide="${playing ? "pause" : "play"}"></i>`;
+
+  createIcons({
+    icons: { Play, Pause },
+    root: container,
+  });
+
+  const icon = container.querySelector("svg");
+  icon.classList.add("play-button-icon");
+
+  const size = 24;
+  const x =
+    Number(rect.getAttribute("x")) +
+    (Number(rect.getAttribute("width")) - size) / 2;
+  const y =
+    Number(rect.getAttribute("y")) +
+    (Number(rect.getAttribute("height")) - size) / 2;
+
+  icon.setAttribute("x", x);
+  icon.setAttribute("y", y);
+  icon.setAttribute("width", size);
+  icon.setAttribute("height", size);
+  icon.style.strokeWidth = "1px";
+  icon.style.fill = "#f8fafc";
+  icon.style.color = "#bec8d9";
+
+  button.append(icon);
+}
+
 async function drawAnimated(result, graphMode, animationDuration) {
   const frameCount = Math.min(
     (20 * animationDuration) / 1000 + 1,
@@ -504,7 +543,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
       },
       buttons: [
         {
-          label: "&#9654;",
+          label: " ",
           method: "skip",
         },
       ],
@@ -617,6 +656,8 @@ async function drawAnimated(result, graphMode, animationDuration) {
     displaylogo: false,
   });
 
+  setPlayButtonIcon(plot, false);
+
   await lockCanvas(is2D, plot);
 
   let isPlaying = false;
@@ -663,9 +704,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
     if (isPlaying) {
       isPlaying = false;
 
-      await Plotly.relayout(plot, {
-        "updatemenus[0].buttons[0].label": "&#9654;",
-      });
+      setPlayButtonIcon(plot, false);
     }
 
     await renderFrame(event.slider.active, false);
@@ -676,9 +715,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
       // Pause
       isPlaying = false;
 
-      await Plotly.relayout(plot, {
-        "updatemenus[0].buttons[0].label": "&#9654;",
-      });
+      setPlayButtonIcon(plot, false);
 
       return;
     }
@@ -691,9 +728,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
 
     isPlaying = true;
 
-    await Plotly.relayout(plot, {
-      "updatemenus[0].buttons[0].label": "&#9208;",
-    });
+    setPlayButtonIcon(plot, true);
 
     while (isPlaying && currentFrame < times.length - 1) {
       // Paused partly through then continue from current frame.
@@ -709,9 +744,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
 
     isPlaying = false;
 
-    await Plotly.relayout(plot, {
-      "updatemenus[0].buttons[0].label": "&#9654;",
-    });
+    setPlayButtonIcon(plot, false);
   });
 }
 
