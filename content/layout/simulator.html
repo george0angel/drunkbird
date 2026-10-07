@@ -1,4 +1,6 @@
 <form id="controls">
+  <h3 class="parameter-heading">Parameters</h3>
+
   <div data-process="bm rw" style="display: none">
     <label for="graph-mode">Graph mode</label>
     <select id="graph-mode">
@@ -8,20 +10,6 @@
       <option value="xyz">X, Y, Z</option>
     </select>
   </div>
-
-  <div data-process="bm rw" style="display: none">
-    <label for="duration">Duration</label>
-    <input
-      id="duration"
-      type="number"
-      min="1"
-      max="10000"
-      step="1"
-      value="10"
-    />
-  </div>
-
-  <h3 class="parameter-heading">Parameters</h3>
 
   <fieldset data-process="bm" style="display: none">
     <legend data-dimensions="2 3">Diffusion</legend>
@@ -463,6 +451,31 @@
   <h3 class="parameter-heading">Simulation Settings</h3>
 
   <div data-process="bm rw" style="display: none">
+    <label for="duration">Duration</label>
+    <input
+      id="duration"
+      type="number"
+      min="1"
+      max="10000"
+      step="1"
+      value="10"
+    />
+  </div>
+
+  <div data-process="bm" style="display: none">
+    <label for="dt">Time step</label>
+    <input
+      id="dt"
+      type="number"
+      min="0.0001"
+      max="1"
+      step="0.00000001"
+      data-jump="0.001"
+      value="0.01"
+    />
+  </div>
+
+  <div data-process="bm rw" style="display: none">
     <label for="max-particles">Population cap</label>
     <input
       id="max-particles"
@@ -477,19 +490,6 @@
       ><input id="max-particles-on" type="checkbox" checked />
       <br />
     </label>
-  </div>
-
-  <div data-process="bm" style="display: none">
-    <label for="dt">Time step</label>
-    <input
-      id="dt"
-      type="number"
-      min="0.0001"
-      max="1"
-      step="0.00000001"
-      data-jump="0.001"
-      value="0.01"
-    />
   </div>
 
   <div data-process="bm rw" style="display: none">

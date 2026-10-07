@@ -356,6 +356,10 @@ form label:has(select:disabled) {
   margin-left: 0.4em;
 }
 
+form :nth-child(1) {
+  margin-top: 0em;
+}
+
 .parameter-heading {
   margin-top: 0.6em;
   margin-bottom: 0.2em;
