@@ -15,10 +15,62 @@
   <div data-process="bp" style="display: none">
     <label for="offspring-distribution">Offspring distribution</label>
     <select id="offspring-distribution">
-      <option value="bernoulli">Bernoulli type</option>
-      <option value="poisson">Poisson</option>
-      <option value="geometric">Geometric</option>
+      <option value="b">Bernoulli type</option>
+      <option value="p">Poisson</option>
+      <option value="g">Geometric</option>
     </select>
+  </div>
+
+  <div data-process="bp" data-offspring="b" style="display: none">
+    <label for="offspring-p-fission">P(fission)</label>
+    <input
+      id="offspring-p-fission"
+      type="number"
+      min="0"
+      max="1"
+      step="0.00000001"
+      data-jump="0.05"
+      value="0.7"
+    />
+  </div>
+
+  <div data-process="bp" data-offspring="p" style="display: none">
+    <label for="offspring-p-success">P(success)</label>
+    <input
+      id="offspring-p-success"
+      type="number"
+      min="0"
+      max="1"
+      step="0.00000001"
+      data-jump="0.05"
+      value="0.4"
+    />
+  </div>
+
+  <div data-process="bp" data-offspring="g" style="display: none">
+    <label for="offspring-p-no-descendants">P(no descendants)</label>
+    <input
+      id="offspring-p-no-descendants"
+      type="number"
+      min="0"
+      max="1"
+      step="0.00000001"
+      data-jump="0.05"
+      value="0.5"
+    />
+  </div>
+
+  <div data-process="bp" data-offspring="p" style="display: none">
+    <label for="offspring-mean-descendants">Mean number of descendants</label>
+    <input
+      id="offspring-mean-descendants"
+      type="number"
+      min="0"
+      max="100"
+      step="0.00000001"
+      data-jump="0.05"
+      value="1.2"
+    />
   </div>
 
   <fieldset data-process="bm" style="display: none">

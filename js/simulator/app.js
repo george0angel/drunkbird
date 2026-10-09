@@ -1051,78 +1051,48 @@ function updateEnabled(fields) {
   });
 }
 
-const processDimensionsFields = document.querySelectorAll(
-  "[data-process][data-dimensions]",
-);
-const processFields = document.querySelectorAll(
-  "[data-process]:not([data-dimensions])",
-);
-const dimensionsFields = document.querySelectorAll(
-  "[data-dimensions]:not([data-process])",
-);
+const conditionalFields = {
+  all: document.querySelectorAll(
+    "[data-process], [data-dimensions], [data-offspring]",
+  ),
+  process: document.querySelectorAll("[data-process]"),
+  dimensions: document.querySelectorAll("[data-dimensions]"),
+  offspring: document.querySelectorAll("[data-offspring]"),
+};
 
 function updateInputs(type = "all") {
-  function update(fields, datasets) {
-    const processType = document.getElementById(`process-type`).value;
-    const dimensions = getSpatialDimensions(
-      document.getElementById(`graph-mode`).value,
-    );
+  const processType = document.getElementById("process-type").value;
+  const dimensions = getSpatialDimensions(
+    document.getElementById("graph-mode").value,
+  );
+  const offspringDistribution = document.getElementById(
+    "offspring-distribution",
+  ).value;
 
-    for (const field of fields) {
-      let allowedParameters;
-      switch (datasets) {
-        case "both":
-          allowedParameters = [
-            field.dataset.process.split(` `),
-            field.dataset.dimensions.split(` `).map(Number),
-          ];
-          break;
-        case "process":
-          allowedParameters = [field.dataset.process.split(` `), [dimensions]];
-          break;
-        case "dimensions":
-          allowedParameters = [
-            [processType],
-            field.dataset.dimensions.split(` `).map(Number),
-          ];
-          break;
-      }
-
-      if (
-        allowedParameters[0].includes(processType) &&
-        allowedParameters[1].includes(dimensions)
-      ) {
-        if (/^H[1-6]$/i.test(field.tagName)) {
-          field.style.display = "block";
-        } else {
-          field.style.display = "contents";
-        }
+  for (const field of conditionalFields[type]) {
+    if (
+      (field.dataset.process === undefined ||
+        field.dataset.process.split(" ").includes(processType)) &&
+      (field.dataset.dimensions === undefined ||
+        field.dataset.dimensions.split(" ").map(Number).includes(dimensions)) &&
+      (field.dataset.offspring === undefined ||
+        field.dataset.offspring.split(" ").includes(offspringDistribution))
+    ) {
+      if (/^H[1-6]$/i.test(field.tagName)) {
+        field.style.display = "block";
       } else {
-        field.style.display = "none";
+        field.style.display = "contents";
       }
+    } else {
+      field.style.display = "none";
     }
-
-    updateEnabled(fields);
-    updateEnabled(inputFields);
-    return;
   }
 
-  switch (type) {
-    case "all":
-      update(processFields, "process");
-      update(dimensionsFields, "dimensions");
-      update(processDimensionsFields, "both");
-      updateDirectionProbabilitiesPreview();
-      return;
-    case "process":
-      update(processFields, "process");
-      update(processDimensionsFields, "both");
-      return;
-    case "dimensions":
-      update(dimensionsFields, "dimensions");
-      update(processDimensionsFields, "both");
-      updateDirectionProbabilitiesPreview();
-      return;
+  updateEnabled(conditionalFields[type]);
+  updateEnabled(inputFields);
+
+  if (type === "all" || type === "dimensions") {
+    updateDirectionProbabilitiesPreview();
   }
 }
 
@@ -1178,6 +1148,10 @@ document
 document
   .getElementById(`graph-mode`)
   .addEventListener(`change`, () => updateInputs("dimensions"));
+
+document
+  .getElementById(`offspring-distribution`)
+  .addEventListener(`change`, () => updateInputs("offspring"));
 
 document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
   checkbox.addEventListener(`change`, () => updateEnabled(inputFields));
