@@ -4,10 +4,11 @@
   <div data-process="bm rw" style="display: none">
     <label for="graph-mode">Graph mode</label>
     <select id="graph-mode">
-      <option value="xt">X (with time axis)</option>
-      <option value="xy">X, Y (without time axis)</option>
-      <option value="xyt">X, Y (with time axis)</option>
-      <option value="xyz">X, Y, Z</option>
+      <option data-process="bp" value="t">Time only</option>
+      <option data-process="bm rw" value="xt">X (with time axis)</option>
+      <option data-process="bm rw" value="xy">X, Y (without time axis)</option>
+      <option data-process="bm rw" value="xyt">X, Y (with time axis)</option>
+      <option data-process="bm rw" value="xyz">X, Y, Z</option>
     </select>
   </div>
 
@@ -577,12 +578,16 @@
       <dd id="mean-final-position">—</dd>
     </div>
 
-    <div data-dimensions="1 2 3" data-process="bm rw" style="display: none">
+    <div data-dimensions="0 1 2 3" data-process="bm rw" style="display: none">
       <dt>First branch time</dt>
       <dd id="first-branch-time">—</dd>
     </div>
 
-    <div data-dimensions="1 2 3" data-process="bm rw" style="display: none">
+    <div
+      data-dimensions="0 1 2 3"
+      data-process="bm rw bp"
+      style="display: none"
+    >
       <dt>Maximum generation at end-time</dt>
       <dd id="maximum-generation">—</dd>
     </div>
@@ -593,7 +598,11 @@
       <dd id="particles-created">—</dd>
     </div>
 
-    <div data-dimensions="1 2 3" data-process="bm rw bp" style="display: none">
+    <div
+      data-dimensions="0 1 2 3"
+      data-process="bm rw bp"
+      style="display: none"
+    >
       <dt>Population at end-time</dt>
       <dd id="final-population">—</dd>
     </div>

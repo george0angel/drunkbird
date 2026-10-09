@@ -42,6 +42,8 @@ function randomSeed() {
 
 function getSpatialDimensions(graphMode) {
   switch (graphMode) {
+    case "t":
+      return 0;
     case "xt":
       return 1;
     case "xy":
@@ -318,6 +320,10 @@ function invertPath(path, startingPosition) {
     .reverse();
 }
 
+function isPlot2D(graphMode) {
+  return graphMode === "t" || graphMode === "xt" || graphMode === "xy";
+}
+
 function getTraceStates(result) {
   const processType = document.getElementById("process-type").value;
   const branchingOn = document.querySelector("#branching-on").checked;
@@ -349,7 +355,7 @@ function getTraceStates(result) {
   }));
 
   const graphMode = document.querySelector("#graph-mode").value;
-  const is2D = graphMode === "xt" || graphMode === "xy";
+  const is2D = isPlot2D(graphMode);
   const dashOptions = ["dot", "dash", "longdash", "dashdot", "longdashdot"];
 
   if (reflectOn) {
@@ -497,7 +503,7 @@ async function drawAnimated(result, graphMode, animationDuration) {
     setTraceTime(state, graphMode, endTime);
   }
 
-  const is2D = graphMode === "xt" || graphMode === "xy";
+  const is2D = isPlot2D(graphMode);
 
   const appliedLegends = new Set();
   const traces = traceStates.map((state) => {
@@ -974,54 +980,75 @@ document.querySelectorAll('input[type="number"]').forEach((input) => {
 
 const inputFields = document.querySelectorAll(`input`);
 
-function updateEnabled() {
+function updateEnabled(fields) {
   const branchingOn = document.getElementById("branching-on").checked;
   const maxParticlesOn = document.getElementById("max-particles-on").checked;
   const seedOn = document.getElementById("seed-on").checked;
   const endingPositionOn =
     document.getElementById("ending-position-on").checked;
 
-  for (const field of inputFields) {
-    let disabled = false;
+  const elementsToEventDispatch = new Set();
 
-    for (
-      let element = field;
-      element && element !== form;
-      element = element.parentElement
-    ) {
-      if (getComputedStyle(element).display === "none") {
+  function update(updateFields) {
+    for (const field of updateFields) {
+      let disabled = false;
+
+      if (getComputedStyle(field).display === "none") {
         disabled = true;
       }
-    }
 
-    switch (field.id) {
-      case `branching-rate`:
-        disabled ||= !branchingOn;
-        break;
-      case `max-particles-on`:
-        disabled ||= !branchingOn;
-        break;
-      case `max-particles`:
-        disabled ||= !branchingOn || !maxParticlesOn;
-        break;
-      case `seed`:
-        disabled ||= !seedOn;
-        break;
-      case `ending-position-on`:
-        disabled ||= branchingOn;
-        break;
-      case `ending-position-x`:
-      case `ending-position-y`:
-      case `ending-position-z`:
-        disabled ||= branchingOn || !endingPositionOn;
-        break;
-      case `reverse-on`:
-        disabled ||= branchingOn;
-        break;
-    }
+      switch (field.id) {
+        case `branching-rate`:
+          disabled ||= !branchingOn;
+          break;
+        case `max-particles-on`:
+          disabled ||= !branchingOn;
+          break;
+        case `max-particles`:
+          disabled ||= !branchingOn || !maxParticlesOn;
+          break;
+        case `seed`:
+          disabled ||= !seedOn;
+          break;
+        case `ending-position-on`:
+          disabled ||= branchingOn;
+          break;
+        case `ending-position-x`:
+        case `ending-position-y`:
+        case `ending-position-z`:
+          disabled ||= branchingOn || !endingPositionOn;
+          break;
+        case `reverse-on`:
+          disabled ||= branchingOn;
+          break;
+      }
 
-    field.disabled = disabled;
+      const changed = field.disabled !== disabled;
+      field.disabled = disabled;
+
+      // Switch to not disabled option in select boxes if needed.
+      if (changed && field.tagName === "OPTION") {
+        update([field.closest("select")]);
+      } else if (
+        field.tagName === "SELECT" &&
+        Boolean(field.options[field.selectedIndex]?.disabled)
+      ) {
+        const firstNotDisabledOption = Array.from(field.options).find(
+          (option) => !option.disabled,
+        );
+
+        if (Boolean(firstNotDisabledOption)) {
+          field.value = firstNotDisabledOption.value;
+          elementsToEventDispatch.add(field);
+        }
+      }
+    }
   }
+
+  update(fields);
+  elementsToEventDispatch.forEach((element) => {
+    element.dispatchEvent(new Event("change", { bubbles: true }));
+  });
 }
 
 const processDimensionsFields = document.querySelectorAll(
@@ -1035,12 +1062,12 @@ const dimensionsFields = document.querySelectorAll(
 );
 
 function updateInputs(type = "all") {
-  const processType = document.getElementById(`process-type`).value;
-  const dimensions = getSpatialDimensions(
-    document.getElementById(`graph-mode`).value,
-  );
-
   function update(fields, datasets) {
+    const processType = document.getElementById(`process-type`).value;
+    const dimensions = getSpatialDimensions(
+      document.getElementById(`graph-mode`).value,
+    );
+
     for (const field of fields) {
       let allowedParameters;
       switch (datasets) {
@@ -1065,13 +1092,18 @@ function updateInputs(type = "all") {
         allowedParameters[0].includes(processType) &&
         allowedParameters[1].includes(dimensions)
       ) {
-        field.style.display = "contents";
+        if (/^H[1-6]$/i.test(field.tagName)) {
+          field.style.display = "block";
+        } else {
+          field.style.display = "contents";
+        }
       } else {
         field.style.display = "none";
       }
     }
 
-    updateEnabled();
+    updateEnabled(fields);
+    updateEnabled(inputFields);
     return;
   }
 
@@ -1148,7 +1180,7 @@ document
   .addEventListener(`change`, () => updateInputs("dimensions"));
 
 document.querySelectorAll(`input[type="checkbox"]`).forEach((checkbox) => {
-  checkbox.addEventListener(`change`, updateEnabled);
+  checkbox.addEventListener(`change`, () => updateEnabled(inputFields));
 });
 
 document
