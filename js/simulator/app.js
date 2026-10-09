@@ -117,7 +117,7 @@ function readParameters() {
 
   const branchingOn = document.querySelector("#branching-on").checked;
 
-  let startingPosition;
+  let startingPosition = [];
   let endingPosition = null;
   if (processType === "rw") {
     startingPosition = [
