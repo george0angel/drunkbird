@@ -100,6 +100,39 @@ function readParameters() {
   const graphMode = document.querySelector("#graph-mode").value;
   const dimensions = getSpatialDimensions(graphMode);
 
+  let offspringDistribution = { type: null };
+  if (processType === "bp") {
+    const offspringDistributionSelection = document.querySelector(
+      "#offspring-distribution",
+    );
+
+    switch (offspringDistributionSelection) {
+      case "bernoulli":
+        offspringDistribution = {
+          type: "bernoulli",
+          p: document.querySelector("#offspring-bernoulli-p").valueAsNumber,
+        };
+        break;
+      case "poisson":
+        offspringDistribution = {
+          type: "poisson",
+          meanDescendants: document.querySelector(
+            "#offspring-poisson-mean-descendants",
+          ).valueAsNumber,
+        };
+        break;
+      case "geometric":
+        offspringDistribution = {
+          type: "geometric",
+          pSuccess: document.querySelector("#offspring-geometric-p-success")
+            .valueAsNumber,
+          pZero: document.querySelector("#offspring-geometric-p-zero")
+            .valueAsNumber,
+        };
+        break;
+    }
+  }
+
   const diffusion = [
     document.querySelector("#diffusion-x").valueAsNumber,
     document.querySelector("#diffusion-y").valueAsNumber,
@@ -147,7 +180,10 @@ function readParameters() {
   return {
     processType,
     endTime: document.querySelector("#duration").valueAsNumber,
-    dt: processType === `rw` ? 1 : document.querySelector("#dt").valueAsNumber,
+    dt: [`rw`, `bp`].includes(processType)
+      ? 1
+      : document.querySelector("#dt").valueAsNumber,
+    offspringDistribution,
     diffusion,
     drift,
     directionProbabilities,
