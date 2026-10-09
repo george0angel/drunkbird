@@ -110,7 +110,9 @@ function createParticle(
   branchRate,
   processType,
 ) {
-  const branchTime = time + exponentialRandom(seed, branchRate);
+  const branchTime = [`rw`, `bm`].includes(processType)
+    ? time + exponentialRandom(seed, branchRate)
+    : time + 1;
 
   return {
     parentId,
@@ -251,6 +253,41 @@ function brownianValue(particle, age) {
   return left.map(
     (value, i) => value + unitAge * (right[i] - value) + bridgeValue[i],
   );
+}
+
+function getChildCount(seed, offspringDistribution) {
+  const uniformRandom = createUniformRandom(seed);
+
+  switch (offspringDistribution.type) {
+    case "bernoulli":
+      return uniformRandom() < offspringDistribution.p ? 2 : 0;
+
+    case "poisson": {
+      if (offspringDistribution.meanDescendants === 0) return 0;
+
+      const threshold = Math.exp(-offspringDistribution.meanDescendants);
+      let product = uniformRandom();
+      let count = 0;
+
+      while (product > threshold) {
+        product *= uniformRandom();
+        count++;
+      }
+
+      return count;
+    }
+
+    case "geometric": {
+      if (uniformRandom() < offspringDistribution.pZero) return 0;
+      if (offspringDistribution.p === 1) return 1;
+      return (
+        1 +
+        Math.floor(
+          Math.log1p(-uniformRandom()) / Math.log1p(-offspringDistribution.p),
+        )
+      );
+    }
+  }
 }
 
 function getParticlePosition(
@@ -395,7 +432,15 @@ export function simulateProcess(parameters) {
         parent.path.push([branchTime, [...branchPosition]]);
       }
 
-      for (let childIndex = 0; childIndex < 2; childIndex += 1) {
+      const childCount =
+        parameters.offspringDistribution.type === null
+          ? 2
+          : getChildCount(
+              splitSeed(parent.seed, 1),
+              parameters.offspringDistribution,
+            );
+
+      for (let childIndex = 0; childIndex < childCount; childIndex += 1) {
         const childId = particles.length;
 
         const child = createParticle(
@@ -403,7 +448,7 @@ export function simulateProcess(parameters) {
           parent.generation + 1,
           branchTime,
           branchPosition,
-          splitSeed(parent.seed, childIndex + 1),
+          splitSeed(parent.seed, childIndex + 2),
           parameters.branchingRate,
           parameters.processType,
         );

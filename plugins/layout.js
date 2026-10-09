@@ -57,7 +57,7 @@ export function layoutPlugin() {
           simulator.insertAdjacentHTML("beforeend", simulatorHtml);
           if (document.querySelector("#process-type").value === `rw`) {
             document.querySelector("#duration").value = 1000;
-            document.querySelector("#branching-rate").value = 0.003;
+            document.querySelector("#branching-rate").value = 0.002;
           }
         }
 

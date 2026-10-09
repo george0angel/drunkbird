@@ -104,7 +104,7 @@ function readParameters() {
   if (processType === "bp") {
     const offspringDistributionSelection = document.querySelector(
       "#offspring-distribution",
-    );
+    ).value;
 
     switch (offspringDistributionSelection) {
       case "bernoulli":
@@ -124,8 +124,7 @@ function readParameters() {
       case "geometric":
         offspringDistribution = {
           type: "geometric",
-          pSuccess: document.querySelector("#offspring-geometric-p-success")
-            .valueAsNumber,
+          p: document.querySelector("#offspring-geometric-p").valueAsNumber,
           pZero: document.querySelector("#offspring-geometric-p-zero")
             .valueAsNumber,
         };
