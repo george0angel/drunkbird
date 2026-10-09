@@ -290,31 +290,17 @@ function updateBounds(position) {
   maxPosition = maxPosition.map((value, i) => Math.max(value, position[i]));
 }
 
-export function simulateProcess(payload) {
-  const processType = payload.processType;
-  const endTime = Number(payload.endTime);
-  const dt = processType === `rw` ? 1 : Number(payload.dt);
-  const diffusion = payload.diffusion.map(Number);
-  const drift = payload.drift.map(Number);
-  const branchingRate = Number(payload.branchingRate);
-  const initialParticles = Number(payload.initialParticles);
-  const maxParticles = Number(payload.maxParticles);
-  const startingPosition = payload.startingPosition.map(Number);
-  const endingPosition =
-    payload.endingPosition === null ? null : payload.endingPosition.map(Number);
-  const seed = Number(payload.seed);
-  const directionProbabilities = payload.directionProbabilities.map(Number);
-
-  const dimensions = startingPosition.length;
+export function simulateProcess(parameters) {
+  const dimensions = parameters.startingPosition.length;
 
   const weightedRandom = createWeightedRandom(
-    splitSeed(seed, 0),
-    directionProbabilities,
+    splitSeed(parameters.seed, 0),
+    parameters.directionProbabilities,
   );
 
   let maximumGeneration = 1;
-  minPosition = [...startingPosition];
-  maxPosition = [...startingPosition];
+  minPosition = [...parameters.startingPosition];
+  maxPosition = [...parameters.startingPosition];
 
   const particles = [];
   let activeIds = new Set();
@@ -327,15 +313,15 @@ export function simulateProcess(payload) {
     return a.particleId - b.particleId;
   });
 
-  for (let index = 0; index < initialParticles; index += 1) {
+  for (let index = 0; index < parameters.initialParticles; index += 1) {
     const particle = createParticle(
       null,
       0,
       0,
-      startingPosition,
-      splitSeed(seed, index + 1),
-      branchingRate,
-      processType,
+      parameters.startingPosition,
+      splitSeed(parameters.seed, index + 1),
+      parameters.branchingRate,
+      parameters.processType,
     );
 
     particles.push(particle);
@@ -347,18 +333,18 @@ export function simulateProcess(payload) {
     });
   }
 
-  let steps = Math.floor(endTime / dt);
-  if (steps * dt !== endTime) {
+  let steps = Math.floor(parameters.endTime / parameters.dt);
+  if (steps * parameters.dt !== parameters.endTime) {
     steps++;
   }
 
   for (let step = 1; step <= steps; step += 1) {
-    let time = step * dt;
+    let time = step * parameters.dt;
     if (step === steps) {
-      time = endTime;
+      time = parameters.endTime;
     }
 
-    if (processType === `rw`) {
+    if (parameters.processType === `rw`) {
       for (const particleId of activeIds) {
         const particle = particles[particleId];
         const direction = weightedRandom();
@@ -371,7 +357,10 @@ export function simulateProcess(payload) {
       }
     }
 
-    while (maxParticles === 0 || activeIds.size < maxParticles) {
+    while (
+      parameters.maxParticles === 0 ||
+      activeIds.size < parameters.maxParticles
+    ) {
       if (branchQueue.isEmpty()) break;
 
       const nextBranch = branchQueue.front();
@@ -387,14 +376,14 @@ export function simulateProcess(payload) {
       activeIds.delete(parentId);
 
       const branchPosition =
-        processType === `bm`
+        parameters.processType === `bm`
           ? getParticlePosition(
               parent,
               branchTime,
-              diffusion,
-              drift,
-              endingPosition,
-              endTime,
+              parameters.diffusion,
+              parameters.drift,
+              parameters.endingPosition,
+              parameters.endTime,
             )
           : [...parent.position];
 
@@ -415,8 +404,8 @@ export function simulateProcess(payload) {
           branchTime,
           branchPosition,
           splitSeed(parent.seed, childIndex + 1),
-          branchingRate,
-          processType,
+          parameters.branchingRate,
+          parameters.processType,
         );
 
         maximumGeneration = Math.max(maximumGeneration, child.generation + 1);
@@ -431,17 +420,17 @@ export function simulateProcess(payload) {
       }
     }
 
-    if (processType === `bm`) {
+    if (parameters.processType === `bm`) {
       for (const particleId of activeIds) {
         const particle = particles[particleId];
 
         particle.position = getParticlePosition(
           particle,
           time,
-          diffusion,
-          drift,
-          endingPosition,
-          endTime,
+          parameters.diffusion,
+          parameters.drift,
+          parameters.endingPosition,
+          parameters.endTime,
         );
 
         updateBounds(particle.position);
@@ -499,14 +488,14 @@ export function simulateProcess(payload) {
 
   const maxFinalDistance = Math.sqrt(maxSqDist);
 
-  let maxDistanceTime = endTime;
+  let maxDistanceTime = parameters.endTime;
 
   let firstBranchTime = null;
 
   let proportionTimePositive = null;
   let positiveSteps = 0;
   let totalSteps = 0;
-  let originVisits = processType === "rw" ? 0 : null;
+  let originVisits = parameters.processType === "rw" ? 0 : null;
 
   function isAtOrigin(position) {
     for (let i = 0; i < dimensions; i++) {
@@ -530,7 +519,7 @@ export function simulateProcess(payload) {
         }
       }
 
-      if (processType === "rw") {
+      if (parameters.processType === "rw") {
         if (isAtOrigin(position)) {
           originVisits += 1;
         }
@@ -554,24 +543,12 @@ export function simulateProcess(payload) {
 
   const maxDistance = Math.sqrt(maxSqDist);
 
-  if (processType === "rw" && dimensions === 1 && totalSteps > 0) {
+  if (parameters.processType === "rw" && dimensions === 1 && totalSteps > 0) {
     proportionTimePositive = positiveSteps / totalSteps;
   }
 
   return {
-    parameters: {
-      processType,
-      endTime,
-      dt,
-      diffusion,
-      drift,
-      branchingRate,
-      initialParticles,
-      maxParticles,
-      seed,
-      startingPosition,
-      endingPosition,
-    },
+    parameters,
 
     particles: particles.map((particle, id) => ({
       id,
@@ -583,7 +560,7 @@ export function simulateProcess(payload) {
 
     summary: {
       startTime: 0,
-      endTime,
+      endTime: parameters.endTime,
       finalPopulation: activeIds.size,
       totalParticlesCreated: particles.length,
       maximumGeneration,
@@ -600,7 +577,8 @@ export function simulateProcess(payload) {
       originVisits,
       proportionTimePositive,
       populationCapReached:
-        maxParticles !== 0 && activeIds.size >= maxParticles,
+        parameters.maxParticles !== 0 &&
+        activeIds.size >= parameters.maxParticles,
       steps,
       dimensions,
     },
